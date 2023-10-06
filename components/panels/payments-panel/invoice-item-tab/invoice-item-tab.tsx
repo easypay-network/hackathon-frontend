@@ -73,7 +73,7 @@ export const InvoiceItemTab: FunctionComponent = () => {
     return (
         <>
             {invoiceItem &&
-                <InformationContainer>
+                <InformationContainer padding="25px">
                     {invoicePage ?
                         <>
                             <Box sx={{display: 'flex', flexDirection: 'column', width: '70%', rowGap: '14px'}}>

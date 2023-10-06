@@ -5,7 +5,9 @@ import styles from "./header.module.css";
 import classNames from "classnames";
 import Link from "next/link";
 import Typography from "@mui/material/Typography";
-import {CommonButton, LoginButton} from "../../buttons";
+import {LoginButton} from "../../buttons";
+import headerLogo from "../../../public/headerLogo.svg";
+import Image from "next/image";
 
 interface Props {
     index: number;
@@ -17,19 +19,25 @@ export const Header: FunctionComponent<Props> = ({index}) => {
             <Container sx={{
                 display: 'flex'
             }}>
-                <Grid container columnSpacing={0} height='80px' paddingLeft={0} paddingRight={0} columns={12}>
-                    <Grid item xs={12} md={9}
+                <Grid container columnSpacing={0} height='80px' paddingLeft={0} paddingRight={0} columns={16}>
+                    <Grid item xs={12} md={2}
+                          sx={{display: 'flex', justifyContent: 'flex-start', height: 'inherit', alignItems: 'center'}}>
+                        <Link href="/">
+                            <Image className={styles.logo} src={headerLogo.src} width='140px' height='65px'/>
+                        </Link>
+                    </Grid>
+                    <Grid item xs={12} md={6}
                           sx={{display: 'flex', justifyContent: 'flex-end', height: 'inherit', alignItems: 'center'}}>
                         <Box className={styles.linkContainer}>
                             <Typography textAlign='center'
-                                        className={classNames(styles.panelLink, index === 0 && styles.selected, 'bold16')}>
+                                        className={classNames(styles.panelLink, index===0 && styles.selected, 'bold16')}>
                                 <Link href="/catalog">
                                     Catalog
                                 </Link>
                             </Typography>
                             <Typography textAlign='center'
-                                        className={classNames(styles.panelLink, index === 1 && styles.selected, 'bold16')}>
-                                <Link href="/payments">
+                                        className={classNames(styles.panelLink, index===1 && styles.selected, 'bold16')}>
+                                <Link href="/payments/dashboards">
                                     Payments
                                 </Link>
                             </Typography>
@@ -52,6 +60,10 @@ export const Header: FunctionComponent<Props> = ({index}) => {
                                 </Link>
                             </Typography>
                         </Box>
+                    </Grid>
+                    <Grid item xs={12} md={5}
+                          sx={{display: 'flex', justifyContent: 'flex-end', height: 'inherit', alignItems: 'center'}}>
+                        Add Input
                     </Grid>
                     <Grid item xs={12} md={3}
                           sx={{display: 'flex', justifyContent: 'flex-end', height: 'inherit', alignItems: 'center'}}>

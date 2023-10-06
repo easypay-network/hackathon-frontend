@@ -58,7 +58,7 @@ export const ConstructorTab: FunctionComponent = () => {
     const dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
 
     return (
-        <InformationContainer>
+        <InformationContainer padding="20px 150px">
             <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', rowGap: '18px'}}>
                 <Box>
                     <Typography className='bold30' textAlign='center'>
