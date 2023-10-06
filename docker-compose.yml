@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    image: easypay-network-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./components:/app/components
+      - ./pages:/app/pages
+      - ./public:/app/public
+      - ./styles:/app/styles
+    ports:
+      - 3000:3000

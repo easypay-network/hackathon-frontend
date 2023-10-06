@@ -1,0 +1,54 @@
+.background {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background: linear-gradient(180deg, rgba(166, 166, 166, 0.00) -29.41%, rgba(166, 166, 166, 0.14) 100%);
+    backdrop-filter: blur(5px);
+    z-index: 2;
+}
+
+.header {
+    min-height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 360px;
+    padding-right: 360px;
+}
+
+.linkContainer {
+    display: flex;
+    align-content: center;
+    margin-left: 90px;
+    min-height: 28px;
+}
+
+.linkContainer>p, .linkContainer>a {
+    margin: 0 0.5rem;
+}
+
+.panelLink > a {
+    color: rgba(136, 136, 136, 1);
+    text-decoration: none;
+}
+
+.panelLink > a:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.panelLink.selected > a {
+    color: rgba(255, 255, 255, 1);
+    text-decoration: none;
+    position: relative;
+}
+
+.panelLink.selected > a::after {
+    content: '';
+    display: block;
+    width: 100%;
+    transition: width 0.3s ease;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+    margin-top: 8px;
+}

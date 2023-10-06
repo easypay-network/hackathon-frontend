@@ -1,0 +1,49 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-image: url("../public/background.png");
+  background-attachment: fixed;
+  color: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  text-align: end;
+}
+
+/* Firefox */
+input[type=number] {
+  text-align: end;
+  -moz-appearance: textfield;
+}
