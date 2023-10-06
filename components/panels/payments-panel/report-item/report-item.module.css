@@ -1,0 +1,148 @@
+.reportMainContainer h2{
+    margin: 54px auto;
+    color: #FFF;
+    font-family: Inter, serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    text-align: center;
+}
+.dateInputContainer {
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+
+.dateInput {
+    color: #F5F5F5;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Inter, serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    background-color: transparent;
+    width: 264px;
+    height: 40px;
+    padding: 16px;
+    align-items: center;
+    gap: 16px;
+    border-radius: 8px;
+    border: 1px solid #888;
+}
+
+.dateInput:focus {
+    border-radius: 8px;
+    border: 1px solid #888;
+    background: #FFF;
+    box-shadow: 0 0 0 4px rgba(31, 94, 255, 0.16);
+    color: #0C0000;
+}
+
+.dates {
+    display: flex;
+    flex-direction: column;
+    margin: 0 40px;
+}
+
+.dates p {
+    margin-left: 20px;
+    margin-bottom: 8px;
+    color: #888;
+    font-family: Gilroy, serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+}
+
+.inactiveButton {
+    display: block;
+    margin: 92px auto;
+    width: 248px;
+    height: 40px;
+    font-family: Inter, serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background: #353535;
+    color: #8E8E8E;
+    border: none;
+    border-radius: 6px;
+}
+
+.activeButton {
+    display: block;
+    margin: 92px auto;
+    width: 248px;
+    height: 40px;
+    font-family: Inter, serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background: #ffffff;
+    color: #0C0000;
+    border: none;
+    border-radius: 6px;
+}
+
+.activeButton:hover {
+    background: linear-gradient(295.88deg, #FBFBFB 23.42%, #B5B5B5 200.3%);
+    cursor: pointer;
+}
+
+.activeButton:active {
+    border: 1px solid;
+}
+
+.backButton {
+    position: relative;
+    top: -398px;
+    left: 0;
+}
+
+.backButton:hover {
+    cursor: pointer;
+}
+
+.modal {
+    position: absolute;
+    width: 400px;
+    height: 396px;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.modal h4 {
+    text-align: center;
+    color: #fff;
+    font-family: Inter,serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0 auto 30px;
+}
+
+.text {
+    width: 296px;
+    margin: 0 auto 40px auto;
+    color: #888888;
+    letter-spacing: 1px;
+}
+
+.text b {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+}
+
+.text b:nth-child(2) {
+    color: white;
+}
