@@ -1,0 +1,24 @@
+.selectedTab[aria-selected="true"] {
+    color: rgba(255, 255, 255, 1);
+    border-bottom: 3px solid rgba(255, 255, 255, 1);
+}
+
+.notSelectedTab {
+    color: rgba(136, 136, 136, 1);
+    border-bottom: 2px solid rgba(136, 136, 136, 1);
+}
+
+.tabSpan {
+    margin: 0;
+    text-transform: none;
+}
+
+.container {
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: inset 0 0 5px white;
+    background: rgba(0, 0, 0, 0.5);
+    min-height: 700px;
+    height: auto;
+    overflow: hidden;
+}
