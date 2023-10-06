@@ -132,3 +132,11 @@
     font-size: 30px;
     line-height: 36px;
 }
+
+.bold40 {
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+}

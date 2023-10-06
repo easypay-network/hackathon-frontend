@@ -57,7 +57,58 @@ export interface Asset {
     }
 }
 
+export interface PathFinderResponse {
+    transactionType: TransactionType;
+    pathResults: PathResult[],
+    ibcMemo: string;
+    txMemo: string;
+    address: string;
+    feeToken: string;
+    feeAmount: number;
+    destinationTokenAmount: number;
+}
 
+export interface PathResult {
+    startNode:  {
+        properties: {
+            ticker: string
+            localTicker: string,
+            logoUrl: string,
+        },
+        zone: {
+            name: string;
+            logoUrl: string,
+        },
+    },
+    edge: {
+        type: string,
+        properties: {
+            inputChannel: string,
+            outputChannel: string,
+        }
+    },
+    endNode:  {
+        properties: {
+            ticker: string
+            localTicker: string,
+            logoUrl: string,
+        },
+        zone: {
+            name: string;
+            logoUrl: string,
+        },
+        edge: {
+            type: string,
+            properties: {
+                inputChannel: string,
+                outputChannel: string,
+            }
+        }
+    },
+    edgeCost: number,
+}
+
+export type TransactionType = 'TRANSFER' | 'IBC_TRANSFER' | 'CONTRACT_CALL';
 export type InvoiceType = 'invoice' | 'listing';
 export type InvoiceDirection = 'INCOMING' | 'OUTGOING' | 'NEUTRAL';
 export type InvoiceStatus = 'pending' | 'resolved' | 'rejected';

@@ -1,0 +1,78 @@
+.tokenContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 5px auto;
+    position: relative;
+}
+
+.tokenTittle {
+    position: absolute;
+    left: 23%;
+    top: 21px;
+    width: 40px;
+    font-family: Inter, serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    text-align: right;
+}
+
+.selectContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.selectLabel {
+    color: #FFF;
+    font-family: Inter, serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    margin-left: 20px;
+}
+
+.amountLabel {
+    color: #FFF;
+    font-family: Inter, serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    margin-left: 15px;
+}
+
+.tokenSelect {
+    width: 280px;
+    height: 32px;
+    border-radius: 6px;
+    background: #FFF;
+    margin: 0 10px;
+    text-align: center;
+    font-family: 'Inter', serif;
+    font-weight: bold;
+}
+
+.amountInput {
+    width: 94px;
+    height: 32px;
+    border-radius: 6px;
+    background: #FFF;
+    margin: 0 10px;
+    border: none;
+    text-align: center!important;
+    font-family: 'Inter', serif;
+    font-weight: bold;
+}
+
+.assetList {
+    text-align: center;
+    font-family: 'Inter', serif;
+    font-weight: bold;
+}
+
+.listItem {
+    margin: 0 20px;
+}
