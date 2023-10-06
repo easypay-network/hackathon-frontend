@@ -4,8 +4,8 @@ import styles from "./constructor-tab.module.css";
 import classNames from "classnames";
 import {format} from "date-fns";
 import {CommonButton} from "../../../buttons";
-import {Invoice} from "../../../types";
-import {CustomDivider} from "../../../items/custom-divider";
+import {Asset, Invoice} from "../../../types";
+import {AssetSelector, CustomDivider} from "../../../items";
 
 const StyledFormControlLabel= styled(FormControlLabel)(() => ({
     ['.MuiFormControlLabel-label']: {
@@ -193,14 +193,13 @@ export const ConstructorTab: FunctionComponent = () => {
                         />
                     </ConstructorRow>
                     <ConstructorRow label='Requested token:'>
-                        <InputBase
-                            className={classNames(styles.input, "bold12")}
-                            type="text"
-                            value={invoiceItem?.requestedAsset}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>)=> {
-                                setInvoiceItem({...invoiceItem, requestedAsset: e.target.value} as Invoice);
-                            }}
-                        />
+                        <Box sx={{width: '100%', height: '40px'}}>
+                            <AssetSelector selectedAsset={invoiceItem?.requestedAsset}
+                                           updateSelectedAsset={(asset: Asset) => {
+                                               setInvoiceItem({...invoiceItem, requestedAsset: asset} as Invoice);
+                                           }}
+                            />
+                        </Box>
                     </ConstructorRow>
                     <ConstructorRow label='Requested Amount:'>
                         <InputBase

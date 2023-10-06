@@ -1,0 +1,9 @@
+.container {
+    padding: 25px;
+    background: linear-gradient(143.69deg, #252628 13.21%, #050505 78.82%);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    border: 3px solid;
+    border-image: linear-gradient(39deg, #343434 -7.27%, #FBFBFB 45.86%, #3F3F3F 118.09%) 1;
+}

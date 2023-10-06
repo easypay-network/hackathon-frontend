@@ -1,0 +1,14 @@
+.tokenSelect {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 1);
+    text-align: center;
+    border: 0;
+}
+
+.assetList {
+    text-align: center;
+    font-family: 'Inter', serif;
+    font-weight: bold;
+}

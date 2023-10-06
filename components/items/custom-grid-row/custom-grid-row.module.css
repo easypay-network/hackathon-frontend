@@ -1,0 +1,16 @@
+.customRow {
+    display: flex;
+    flex-direction: row;
+    column-gap: 25px;
+}
+
+.customLabel {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 25%;
+}
+
+.customBody {
+    width: 75%;
+}

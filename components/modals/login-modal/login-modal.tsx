@@ -6,10 +6,10 @@ import {useGoogleLogin} from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
 import {getKeplrFromWindow} from "./getKeplrFromWindow";
-import {rpcAddresses} from "../../types";
+import {rpcAddresses} from "../../constants";
 import {CommonButton} from "../../buttons";
 import {CommonModal} from "../common-modal";
-import {CustomDivider} from "../../items/custom-divider";
+import {CustomDivider} from "../../items";
 
 interface Props {
     open: boolean;

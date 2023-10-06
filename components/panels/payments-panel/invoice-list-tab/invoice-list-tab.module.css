@@ -1,3 +1,20 @@
+.invoiceTable {
+    min-width: 700px;
+    border-radius: 6px;
+    border-collapse: unset;
+    border: 3px solid;
+    border-image: linear-gradient(39deg, #343434 -7.27%, #FBFBFB 45.86%, #3F3F3F 118.09%) 1;
+}
+
 .borderLeftCell {
     border-left: 1px solid;
+}
+
+.identityLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+    cursor: pointer;
+    column-gap: 5px
 }
