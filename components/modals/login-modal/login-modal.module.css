@@ -1,0 +1,13 @@
+.loginModalContainer {
+    position: absolute;
+    width: 400px;
+    height: 320px;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.connectedLabel {
+    color: rgba(136, 136, 136, 1);
+}

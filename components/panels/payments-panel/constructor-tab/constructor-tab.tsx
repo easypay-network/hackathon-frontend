@@ -1,10 +1,11 @@
 import React, {FunctionComponent, useState} from "react";
-import {Box, Divider, FormControlLabel, InputBase, Radio, RadioGroup, styled, Typography} from "@mui/material";
+import {Box, FormControlLabel, InputBase, Radio, RadioGroup, styled, Typography} from "@mui/material";
 import styles from "./constructor-tab.module.css";
 import classNames from "classnames";
 import {format} from "date-fns";
 import {CommonButton} from "../../../buttons";
 import {Invoice} from "../../../types";
+import {CustomDivider} from "../../../items/custom-divider";
 
 const StyledFormControlLabel= styled(FormControlLabel)(() => ({
     ['.MuiFormControlLabel-label']: {
@@ -65,7 +66,7 @@ export const ConstructorTab: FunctionComponent = () => {
                             Invoice creation form
                         </Typography>
                     </Box>
-                    <Divider className={styles.divider}/>
+                    <CustomDivider/>
                     <ConstructorRow label='Visibility:'>
                         <RadioGroup
                             aria-label="options"

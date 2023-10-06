@@ -1,0 +1,17 @@
+.modalBody {
+    width: 100%;
+    height: 100%;
+    border: 3px solid;
+    background: linear-gradient(0deg, #313233, #313233);
+    border-image: linear-gradient(39deg, #343434 -7.27%, #FBFBFB 45.86%, #3F3F3F 118.09%) 1;
+    padding: 50px;
+}
+
+.closeIcon {
+    z-index: 1;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    color: rgba(136, 136, 136, 1);
+    padding: 0;
+}
