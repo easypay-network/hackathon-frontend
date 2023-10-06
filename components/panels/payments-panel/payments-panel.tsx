@@ -1,5 +1,4 @@
 import React, {FunctionComponent, useState} from "react";
-
 import styles from "./payments-panel.module.css";
 import classNames from "classnames";
 import {Box, Tab, Tabs, Typography} from "@mui/material";
@@ -7,6 +6,8 @@ import {TabPanel} from "./tap-panel";
 import {useRouter} from "next/router";
 import {ConstructorTab} from "./constructor-tab";
 import {InvoiceListTab} from "./invoice-list-tab";
+import ReportsListTab from "./reports-list-tab/reports-list-tab";
+
 
 interface Props {
     children?: React.ReactNode;
@@ -68,7 +69,7 @@ export const PaymentsPanel: FunctionComponent<Props> = ({children, index}) => {
                     <Typography>History</Typography>
                 </TabPanel>
                 <TabPanel value={tabIndex} index={4}>
-                    <Typography>Reports</Typography>
+                    {index === 4 && children || <ReportsListTab/>}
                 </TabPanel>
             </Box>
         </Box>
