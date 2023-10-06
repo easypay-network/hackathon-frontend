@@ -2,7 +2,7 @@ import {NextPage} from "next";
 import {PageLayout} from "../../../components/layouts";
 import {PaymentsPanel} from "../../../components/panels/payments-panel";
 
-const PaymentsPage: NextPage = () => {
+const ConstructorPage: NextPage = () => {
     return (
         <PageLayout index={1}>
             <PaymentsPanel index={2}/>
@@ -10,4 +10,4 @@ const PaymentsPage: NextPage = () => {
     )
 }
 
-export default PaymentsPage;
+export default ConstructorPage;

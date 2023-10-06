@@ -1,4 +1,4 @@
-import React, {FunctionComponent, ReactNode} from "react";
+import React, {FunctionComponent} from "react";
 import {Footer} from "./footer";
 import {Header} from "./header";
 import {Box, Container} from "@mui/material";
@@ -7,7 +7,7 @@ import styles from "./layout.module.css";
 import classNames from "classnames";
 
 interface Props {
-    children?: ReactNode;
+    children?: React.ReactNode;
     index: number;
 }
 

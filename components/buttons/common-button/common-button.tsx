@@ -1,11 +1,11 @@
-import React, {FunctionComponent, ReactNode} from "react";
+import React, {FunctionComponent} from "react";
 import Button from '@mui/material/Button';
 
 import styles from "./common-button.module.css";
 import classNames from "classnames";
 
 interface Props {
-    children: ReactNode;
+    children: React.ReactNode;
     onClick: Function;
     width?: string;
     className?: string;

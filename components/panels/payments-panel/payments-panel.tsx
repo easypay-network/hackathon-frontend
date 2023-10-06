@@ -1,4 +1,4 @@
-import React, {FunctionComponent, ReactNode, useState} from "react";
+import React, {FunctionComponent, useState} from "react";
 
 import styles from "./payments-panel.module.css";
 import classNames from "classnames";
@@ -6,9 +6,10 @@ import {Box, Tab, Tabs, Typography} from "@mui/material";
 import {TabPanel} from "./tap-panel";
 import {useRouter} from "next/router";
 import {ConstructorTab} from "./constructor-tab";
+import {InvoiceListTab} from "./invoice-list-tab";
 
 interface Props {
-    children?: ReactNode;
+    children?: React.ReactNode;
     index: number;
 }
 
@@ -58,10 +59,10 @@ export const PaymentsPanel: FunctionComponent<Props> = ({children, index}) => {
                     <Typography>Dashboard</Typography>
                 </TabPanel>
                 <TabPanel value={tabIndex} index={1}>
-                    <Typography>Invoices</Typography>
+                    {index === 1 && children || <InvoiceListTab/>}
                 </TabPanel>
                 <TabPanel value={tabIndex} index={2}>
-                    <ConstructorTab/>
+                    {index === 2 && children || <ConstructorTab/>}
                 </TabPanel>
                 <TabPanel value={tabIndex} index={3}>
                     <Typography>History</Typography>

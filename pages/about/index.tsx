@@ -3,7 +3,7 @@ import {PageLayout} from "../../components/layouts";
 
 const AboutPage: NextPage = () => {
     return (
-        <PageLayout index={3}>
+        <PageLayout index={4}>
             AboutPage
         </PageLayout>
     )
