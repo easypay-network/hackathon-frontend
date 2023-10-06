@@ -112,3 +112,10 @@ export type TransactionType = 'TRANSFER' | 'IBC_TRANSFER' | 'CONTRACT_CALL';
 export type InvoiceType = 'invoice' | 'listing';
 export type InvoiceDirection = 'INCOMING' | 'OUTGOING' | 'NEUTRAL';
 export type InvoiceStatus = 'pending' | 'resolved' | 'rejected';
+
+export interface Category {
+    identity: number;
+    name: string;
+    imageUrl: string;
+    featured: boolean;
+}

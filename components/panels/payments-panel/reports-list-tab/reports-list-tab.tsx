@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from "react";
-import styles from "./reports-list-tab.module.css";
-import {Box, Button, Grid, Typography} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import logo1 from "/public/reports-images/11.png"
 import logo2 from "/public/reports-images/12.png"
 import logo3 from "/public/reports-images/13.png"
@@ -9,21 +8,11 @@ import logo5 from "/public/reports-images/15.png"
 import logo6 from "/public/reports-images/16.png"
 import logo7 from "/public/reports-images/17.png"
 import {useRouter} from "next/router";
+import {PanelItem} from "../../../items";
 
 const ReportsListTab: FunctionComponent = () => {
     const router = useRouter()
-    const reportsClick = (reportName: string) => {
-        router.push(
-            {
-                pathname: '/payments/reports/[report]',
-                query: {
-                    reportName,
-                },
-            },
-            `/payments/reports/${reportName.toLowerCase()}`,
-            { shallow: true }
-        );
-    }
+
     const reports = [
         "Payments report",
         "Unpaid pending invoice report",
@@ -55,26 +44,17 @@ const ReportsListTab: FunctionComponent = () => {
                 {reportsData.map((report, index) => {
                     return (
                         <Grid key={`${report.name}-${index}`} item xs={2} justifyContent='space-around'>
-                            <Button className={styles.categoryItem} onClick={() => reportsClick(report.name)}>
-                                <Box sx={{
-                                    display: 'flex',
-                                    alignItem: 'center',
-                                    padding: '0px'
-                                }}
-                                     className={styles.imageContainer}
-                                >
-                                    <Box
-                                        component="img"
-                                        src={report.logo.src}
-                                        className={styles.image}
-                                    />
-                                    <Box className={styles.imageText}>
-                                        <Typography className="bold16">
-                                            {report.name}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </Button>
+                            <PanelItem itemName={report.name}
+                                       itemLogo={report.logo.src}
+                                       onSelectItem={() => router.push({
+                                               pathname: '/payments/reports/[report]',
+                                               query: {
+                                                   reportName: report.name
+                                               }
+                                           },
+                                           `/payments/reports/${report.name.toLowerCase()}`,
+                                           {shallow: true})}
+                            />
                         </Grid>
                     );
                 })}
