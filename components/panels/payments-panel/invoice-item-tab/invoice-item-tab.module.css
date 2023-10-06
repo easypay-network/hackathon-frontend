@@ -7,3 +7,46 @@
     border: 3px solid;
     border-image: linear-gradient(39deg, #343434 -7.27%, #FBFBFB 45.86%, #3F3F3F 118.09%) 1;
 }
+
+.editButton {
+    width: 100%;
+    height: 40px;
+    background: rgba(43, 89, 180, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.editButton:hover {
+    background: rgba(43, 89, 180, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.rejectButton {
+    width: 100%;
+    height: 40px;
+    background: rgba(255, 83, 83, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.rejectButton:hover {
+    background: rgba(255, 83, 83, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.processedButton {
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 173, 69, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+.processedButton:hover {
+    background: rgba(0, 173, 69, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.invoiceImage {
+    min-height: 250px;
+    max-height:300px;
+    max-width:300px;
+    width:100%;
+}

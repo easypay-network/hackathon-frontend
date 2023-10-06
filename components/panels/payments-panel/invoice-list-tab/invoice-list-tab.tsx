@@ -21,6 +21,8 @@ import { useUserInfoContext } from "../../../../contexts";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import {InvoiceDirectionItem} from "./invoice-direction-item";
+import {InvoiceStatusItem} from "./invoice-status-item";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -228,9 +230,7 @@ export const InvoiceListTab: FunctionComponent = () => {
                                         <Typography className='bold12'>{invoiceItem.title}</Typography>
                                     </StyledTableCell>
                                     <StyledTableCell className={styles.borderLeftCell}>
-                                        <Typography sx={{textAlign: 'center', width: '100%'}} className='bold12'>
-                                            {invoiceItem.direction}
-                                        </Typography>
+                                        <InvoiceDirectionItem direction={invoiceItem?.direction}/>
                                     </StyledTableCell>
                                     <StyledTableCell className={styles.borderLeftCell}>
                                         <Typography className='bold12'>{invoiceItem.requestedAmount}</Typography>
@@ -251,7 +251,7 @@ export const InvoiceListTab: FunctionComponent = () => {
                                         }
                                     </StyledTableCell>
                                     <StyledTableCell className={styles.borderLeftCell}>
-                                        <Typography className='bold12'>{invoiceItem.status}</Typography>
+                                        <InvoiceStatusItem status={invoiceItem?.status}/>
                                     </StyledTableCell>
                                     <StyledTableCell className={styles.borderLeftCell}>
                                         {invoiceItem.creationDate &&

@@ -1,0 +1,51 @@
+.outgoingLine {
+    position: relative;
+    width: calc(100% - 10px);
+    height: 2px;
+    background-color: #62FFA1;
+}
+
+.outgoingLine::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 10px solid #62FFA1;
+    transform: translateY(-50%);
+}
+
+.incomingLine {
+    position: relative;
+    width: calc(100% - 10px);
+    height: 2px;
+    background-color: #FF5353;
+}
+
+.incomingLine::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 10px solid #FF5353;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.neutralLine {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background-color: #FFF;
+}
+
+.lineLabel {
+    text-align: center;
+    width: 100%;
+}
