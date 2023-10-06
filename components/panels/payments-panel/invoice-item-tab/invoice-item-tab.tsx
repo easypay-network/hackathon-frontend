@@ -3,14 +3,18 @@ import {Box, Typography} from "@mui/material";
 import styles from "./invoice-item-tab.module.css";
 import {useRouter} from "next/router";
 import {Asset, Invoice} from "../../../types";
-import {CustomDivider, CustomGridRow, TokenAmountItem} from "../../../items";
+import {CustomDivider, CustomGridRow, TokenAmountItem, InformationContainer} from "../../../items";
 import {InvoiceStatusItem} from "./invoice-status-item";
-import {InformationContainer} from "../../../items/information-container";
 import {CommonButton} from "../../../buttons";
+import axios from "axios";
+import {apiUrl} from "../../../constants";
+import { PaymentConfirmModal } from "../../../modals";
 
 export const InvoiceItemTab: FunctionComponent = () => {
     const router = useRouter();
     const {invoice} = router.query;
+
+    const [open, setOpen] = useState(false);
 
     const [invoicePage, setInvoicePage] = useState(true);
 
@@ -21,53 +25,11 @@ export const InvoiceItemTab: FunctionComponent = () => {
             return
         }
 
-        let a = {
-                "identity": 13,
-                "title": "Invoice to Alexandra",
-                "description": "Nothing to say at the moment",
-                "imageUrl": "https://www.zenefits.com/workest/wp-content/uploads/2023/01/compensation-vs-salary.jpg",
-                "requestedAmount": 1.0,
-                "payedAmount": 0.0,
-                "status": "pending",
-                "creationDate": "2023-01-01T10:00:00",
-                "dueDate": "2024-01-01T10:00:00",
-                "type": "invoice",
-                "direction": "INCOMING",
-                "receiver": {
-                    "identity": 11,
-                    "address": "osmo1v75ufqsddpeq38yphd89ztyt8gg2v73hx679yc",
-                    "relatedZone": {
-                        "identity": 10,
-                        "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                        "networkId": "osmo-test-5",
-                        "name": "Osmosis testnet"
-                    }
-                },
-                "requester": {
-                    "identity": 12,
-                    "address": "dharapko@gmail.com"
-                },
-                "requestedAsset": {
-                    "identity": null,
-                    "ticker": "osmo",
-                    "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                    "denom": "uosmo",
-                    "denomTrace": null,
-                    "originalTicker": null,
-                    "localTicker": null,
-                    "locatedZone": {
-                        "identity": 10,
-                        "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                        "networkId": "osmo-test-5",
-                        "name": "Osmosis testnet"
-                    }
-                },
-                "payerWallet": null,
-                "payerEmail": null
-            };
-
-        // @ts-ignore
-        setInvoiceItem(a as Invoice);
+        axios.get(`${apiUrl}/invoices/${invoice}`)
+            .then((response) => {
+                setInvoiceItem(response.data);
+            })
+            .catch((error) => console.error(error));
     }, [invoice]);
 
     return (
@@ -178,7 +140,7 @@ export const InvoiceItemTab: FunctionComponent = () => {
                                     />
                                 </CustomGridRow>
                                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                    <CommonButton width='200px' onClick={()=>console.log("initiate payment")}>
+                                    <CommonButton width='200px' onClick={()=>setOpen(true)}>
                                         <Typography className="bold16">Initiate payment</Typography>
                                     </CommonButton>
                                 </Box>
@@ -187,6 +149,12 @@ export const InvoiceItemTab: FunctionComponent = () => {
                     }
                 </InformationContainer>
             }
+
+            <PaymentConfirmModal
+                open={open}
+                setOpen={setOpen}
+                invoiceItem={invoiceItem}
+            />
         </>
     );
 }

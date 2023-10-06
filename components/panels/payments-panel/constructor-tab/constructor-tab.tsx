@@ -5,7 +5,9 @@ import classNames from "classnames";
 import {format} from "date-fns";
 import {CommonButton} from "../../../buttons";
 import {Asset, Invoice} from "../../../types";
-import {AssetSelector, CustomDivider, InformationContainer} from "../../../items";
+import {AssetSelector, CustomDivider, CustomGridRow, InformationContainer} from "../../../items";
+import axios from "axios";
+import {apiUrl} from "../../../constants";
 
 const StyledFormControlLabel= styled(FormControlLabel)(() => ({
     ['.MuiFormControlLabel-label']: {
@@ -29,30 +31,61 @@ const StyledRadio = styled(Radio)(() => ({
     }
 }));
 
-interface ConstructorRowProps {
-    label: string;
-    children?: React.ReactNode;
-}
-
-const ConstructorRow: FunctionComponent<ConstructorRowProps> = ({label, children}) => {
-    return (
-        <Box sx={{display: 'flex', flexDirection: 'row', columnGap: '25px'}}>
-            <Box sx={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end',
-                width: '25%'
-            }}>
-                <Typography className='bold12'>{label}</Typography>
-            </Box>
-            <Box sx={{width: '65%'}}>
-                {children}
-            </Box>
-        </Box>
-    );
-}
-
 export const ConstructorTab: FunctionComponent = () => {
+    const [formErrors, setFormErrors] = useState({
+        title: false,
+        imageUrl: false,
+        requestedAmount: false,
+        requestedAsset: false,
+        receiver: false,
+    });
+
+    const validateInvoice = (invoice: Invoice) => {
+        const errors: any = {};
+        if (!invoice.title) {
+            errors.title = true;
+        }
+        if (!invoice.imageUrl) {
+            errors.imageUrl = true;
+        }
+        if (!invoice.requestedAmount) {
+            errors.requestedAmount = true;
+        }
+        if (!invoice.requestedAsset) {
+            errors.requestedAsset = true;
+        }
+        if (!invoice.receiver) {
+            errors.receiver = true;
+        }
+
+        return errors;
+    };
+
+    const handleSubmitInvoice = () => {
+        const validationErrors = validateInvoice(invoiceItem);
+        setFormErrors(validationErrors);
+
+        if (Object.values(validationErrors).some((element) => element === true)) {
+            return;
+        }
+
+        const newInvoice = {
+            ...invoiceItem,
+            status: 'pending',
+            creationDate: format(new Date(), dateFormat),
+            type: 'invoice',
+            direction: 'INCOMING'
+        }
+
+        setInvoiceItem(newInvoice as Invoice);
+
+        axios.post(`${apiUrl}/invoices`, newInvoice)
+            .then((response) => {
+                alert(`Invoice created with id ${response.data.identity}`);
+            })
+            .catch((error) => console.error(error));
+    }
+
     const [invoiceItem, setInvoiceItem] = useState<Invoice>({} as Invoice);
 
     const dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
@@ -66,7 +99,7 @@ export const ConstructorTab: FunctionComponent = () => {
                     </Typography>
                 </Box>
                 <CustomDivider/>
-                <ConstructorRow label='Visibility:'>
+                <CustomGridRow label='Visibility:'>
                     <RadioGroup
                         aria-label="options"
                         name="options"
@@ -83,8 +116,8 @@ export const ConstructorTab: FunctionComponent = () => {
                             label="Public"
                         />
                     </RadioGroup>
-                </ConstructorRow>
-                <ConstructorRow label='Type:'>
+                </CustomGridRow>
+                <CustomGridRow label='Type:'>
                     <RadioGroup
                         aria-label="options"
                         name="options"
@@ -120,18 +153,24 @@ export const ConstructorTab: FunctionComponent = () => {
                             label="Multisig invoice"
                         />
                     </RadioGroup>
-                </ConstructorRow>
-                <ConstructorRow label='Title:'>
+                </CustomGridRow>
+                <CustomGridRow label='Title:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="text"
                         value={invoiceItem?.title}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>)=> {
+                            if (e.target.value) {
+                                setFormErrors({...formErrors, title: false});
+                            }
                             setInvoiceItem({...invoiceItem, title: e.target.value} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Description:'>
+                    <Typography className={classNames(styles.invalidInput, "bold12")}>
+                        {formErrors.title && "Value is required"}
+                    </Typography>
+                </CustomGridRow>
+                <CustomGridRow label='Description:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="text"
@@ -140,18 +179,24 @@ export const ConstructorTab: FunctionComponent = () => {
                             setInvoiceItem({...invoiceItem, description: e.target.value} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Image url:'>
+                </CustomGridRow>
+                <CustomGridRow label='Image url:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="text"
                         value={invoiceItem?.imageUrl}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>)=> {
+                            if (e.target.value) {
+                                setFormErrors({...formErrors, imageUrl: false});
+                            }
                             setInvoiceItem({...invoiceItem, imageUrl: e.target.value} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Requester:'>
+                    <Typography className={classNames(styles.invalidInput, "bold12")}>
+                        {formErrors.imageUrl && "Value is required"}
+                    </Typography>
+                </CustomGridRow>
+                <CustomGridRow label='Requester:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="text"
@@ -160,18 +205,24 @@ export const ConstructorTab: FunctionComponent = () => {
                             setInvoiceItem({...invoiceItem, requester: {address: e.target.value}} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Receivers:'>
+                </CustomGridRow>
+                <CustomGridRow label='Receivers:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="text"
                         value={invoiceItem?.receiver?.address}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>)=> {
+                            if (e.target.value) {
+                                setFormErrors({...formErrors, receiver: false});
+                            }
                             setInvoiceItem({...invoiceItem, receiver: {address: e.target.value}} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Payers emails:'>
+                    <Typography className={classNames(styles.invalidInput, "bold12")}>
+                        {formErrors.receiver && "Value is required"}
+                    </Typography>
+                </CustomGridRow>
+                <CustomGridRow label='Payers emails:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="text"
@@ -180,8 +231,8 @@ export const ConstructorTab: FunctionComponent = () => {
                             setInvoiceItem({...invoiceItem, payerEmail: {address: e.target.value}} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Payers wallets:'>
+                </CustomGridRow>
+                <CustomGridRow label='Payers wallets:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="text"
@@ -190,27 +241,39 @@ export const ConstructorTab: FunctionComponent = () => {
                             setInvoiceItem({...invoiceItem, payerWallet: {address: e.target.value}} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Requested token:'>
+                </CustomGridRow>
+                <CustomGridRow label='Requested token:'>
                     <Box sx={{width: '100%', height: '40px'}}>
                         <AssetSelector selectedAsset={invoiceItem?.requestedAsset}
                                        updateSelectedAsset={(asset: Asset) => {
+                                           if (asset) {
+                                               setFormErrors({...formErrors, requestedAsset: false});
+                                           }
                                            setInvoiceItem({...invoiceItem, requestedAsset: asset} as Invoice);
                                        }}
                         />
                     </Box>
-                </ConstructorRow>
-                <ConstructorRow label='Requested Amount:'>
+                    <Typography className={classNames(styles.invalidInput, "bold12")}>
+                        {formErrors.requestedAsset && "Value is required"}
+                    </Typography>
+                </CustomGridRow>
+                <CustomGridRow label='Requested Amount:'>
                     <InputBase
                         className={classNames(styles.input, "bold12")}
                         type="number"
                         value={invoiceItem?.requestedAmount}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>)=> {
+                            if (e.target.value) {
+                                setFormErrors({...formErrors, requestedAmount: false});
+                            }
                             setInvoiceItem({...invoiceItem, requestedAmount: Number(e.target.value) || ''} as Invoice);
                         }}
                     />
-                </ConstructorRow>
-                <ConstructorRow label='Due date:'>
+                    <Typography className={classNames(styles.invalidInput, "bold12")}>
+                        {formErrors.requestedAmount && "Value is required"}
+                    </Typography>
+                </CustomGridRow>
+                <CustomGridRow label='Due date:'>
                     <input type='datetime-local' className={styles.dateInput} min="2020-12-31T00:00" max="2030-12-31T00:00" required={true}
                            value={invoiceItem?.dueDate}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>)=> {
@@ -218,9 +281,9 @@ export const ConstructorTab: FunctionComponent = () => {
                                setInvoiceItem({...invoiceItem, dueDate: format(date, dateFormat)} as Invoice);
                            }}
                     />
-                </ConstructorRow>
+                </CustomGridRow>
                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                    <CommonButton width='300px' onClick={()=>console.log(invoiceItem)}>
+                    <CommonButton width='300px' onClick={handleSubmitInvoice}>
                         <Typography className="bold16">Proceed to payment</Typography>
                     </CommonButton>
                 </Box>

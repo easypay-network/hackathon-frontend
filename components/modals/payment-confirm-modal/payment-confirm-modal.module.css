@@ -1,0 +1,9 @@
+.paymentModalContainer {
+    position: absolute;
+    width: 620px;
+    height: 600px;
+    top: calc(50% - 310px);
+    left: calc(50% - 300px);
+    border-radius: 6px;
+    overflow: hidden;
+}

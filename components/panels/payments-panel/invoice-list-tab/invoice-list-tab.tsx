@@ -23,6 +23,8 @@ import Link from "next/link";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {InvoiceDirectionItem} from "./invoice-direction-item";
 import {InvoiceStatusItem} from "./invoice-status-item";
+import axios from "axios";
+import {apiUrl} from "../../../constants";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -57,98 +59,14 @@ export const InvoiceListTab: FunctionComponent = () => {
     const [invoices, setInvoices] = useState<Invoice[]>();
 
     useEffect(() => {
-        let a = [
-            {
-                "identity": 13,
-                "title": "Invoice to Alexandra",
-                "description": "Nothing to say at the moment",
-                "imageUrl": "https://www.zenefits.com/workest/wp-content/uploads/2023/01/compensation-vs-salary.jpg",
-                "requestedAmount": 1.0,
-                "payedAmount": 0.0,
-                "status": "pending",
-                "creationDate": "2023-01-01T10:00:00",
-                "dueDate": "2024-01-01T10:00:00",
-                "type": "invoice",
-                "direction": "INCOMING",
-                "receiver": {
-                    "identity": 11,
-                    "address": "osmo1v75ufqsddpeq38yphd89ztyt8gg2v73hx679yc",
-                    "relatedZone": {
-                        "identity": 10,
-                        "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                        "networkId": "osmo-test-5",
-                        "name": "Osmosis testnet"
-                    }
-                },
-                "requester": {
-                    "identity": 12,
-                    "address": "dharapko@gmail.com"
-                },
-                "requestedAsset": {
-                    "identity": null,
-                    "ticker": "osmo",
-                    "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                    "denom": "uosmo",
-                    "denomTrace": null,
-                    "originalTicker": null,
-                    "localTicker": null,
-                    "locatedZone": {
-                        "identity": 10,
-                        "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                        "networkId": "osmo-test-5",
-                        "name": "Osmosis testnet"
-                    }
-                },
-                "payerWallet": null,
-                "payerEmail": null
-            },
-            {
-                "identity": 27,
-                "title": "EasyPay team payroll invoice",
-                "description": "Nothing to say at the moment",
-                "imageUrl": "https://www.zenefits.com/workest/wp-content/uploads/2023/01/compensation-vs-salary.jpg",
-                "requestedAmount": 1.0,
-                "payedAmount": 0.0,
-                "status": "pending",
-                "creationDate": "2023-01-01T10:00:00",
-                "dueDate": "2024-01-01T10:00:00",
-                "type": "invoice",
-                "direction": "INCOMING",
-                "receiver": {
-                    "identity": 11,
-                    "address": "osmo1v75ufqsddpeq38yphd89ztyt8gg2v73hx679yc",
-                    "relatedZone": {
-                        "identity": 10,
-                        "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                        "networkId": "osmo-test-5",
-                        "name": "Osmosis testnet"
-                    }
-                },
-                "requester": {
-                    "identity": 12,
-                    "address": "dharapko@gmail.com"
-                },
-                "requestedAsset": {
-                    "identity": null,
-                    "ticker": "osmo",
-                    "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                    "denom": "uosmo",
-                    "denomTrace": null,
-                    "originalTicker": null,
-                    "localTicker": null,
-                    "locatedZone": {
-                        "identity": 10,
-                        "logoUrl": "https://avatars.githubusercontent.com/u/79296913?s=48&v=4",
-                        "networkId": "osmo-test-5",
-                        "name": "Osmosis testnet"
-                    }
-                },
-                "payerWallet": null,
-                "payerEmail": null
-            }
-        ];
-        // @ts-ignore
-        setInvoices(a as Invoice[]);
+        axios.get(`${apiUrl}/invoices`, {
+            params: {
+                requesterEmail: emailVerified && email || ''
+            }})
+            .then((response) => {
+                setInvoices(response.data);
+            })
+            .catch((error) => console.error(error));
     }, []);
 
     return (
