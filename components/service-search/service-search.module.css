@@ -4,7 +4,7 @@
     padding: 10px 10px 10px 40px;
     width: 248px;
     height: 40px;
-    background: url("../../public/search-icon.svg") no-repeat scroll 10px 7px;
+    background: url("../../public/searchIcon.svg") no-repeat scroll 10px 7px;
     outline: none;
     color: #ffffff;
     font-size: 16px;
@@ -15,7 +15,7 @@
 }
 
 .customInput:focus {
-    background: url("../../public/sharp-icon.svg") no-repeat scroll 14px 10px;
+    background: url("../../public/sharpIcon.svg") no-repeat scroll 14px 10px;
     width: 350px;
 }
 
