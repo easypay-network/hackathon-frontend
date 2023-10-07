@@ -14,7 +14,7 @@ const AboutPanel: NextPage = () => {
             <div className={styles.aboutContainer}>
                 <div>
                     <h1 className={styles.title}>About</h1>
-                    <p className={styles.text}>How It Works: Explanation of how the payment system functions. How It Works: Explanation of how the payment system functions.How It Wo</p>
+                    <p className={styles.text}>Our team consists of developers working in the Web3 space. We have experience working with various blockchains and have won several hackathons with our projects.</p>
                 </div>
             </div>
             <h1 className={styles.teamTitle}>Team</h1>
