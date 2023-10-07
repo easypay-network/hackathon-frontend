@@ -131,7 +131,7 @@ const SwapPage: NextPage = () => {
         }
 
         const defaultFee: StdFee = {
-            amount: [{denom: denom, amount: "500"}],
+            amount: [{denom: denom, amount: "5000"}],
             gas: "200000",
         };
 
@@ -207,36 +207,42 @@ const SwapPage: NextPage = () => {
             <PaymentStatusModal modalContainerStyle={styles.successModalContainer}
                                 open={openSuccessPaymentModal}
                                 setOpen={setOpenSuccessPaymentModal}>
-                <Typography className='bold40' color='rgba(0, 173, 69, 1)' textAlign='center'>
-                    Success!
-                </Typography>
-                <Typography className='bold14' textAlign='center'>
-                    Transaction:
-                    <br/>
-                    {transactionNumber}
-                </Typography>
+                <Box textAlign="center">
+                    <Typography className='bold40' color='rgba(0, 173, 69, 1)' textAlign='center'>
+                        Success!
+                    </Typography>
+                    <Typography className='bold14' textAlign='center'>
+                        Transaction:
+                        <br/>
+                        {transactionNumber}
+                    </Typography>
+                </Box>
             </PaymentStatusModal>
 
             <PaymentStatusModal modalContainerStyle={styles.failModalContainer}
                                 open={openFailedPaymentModal}
                                 setOpen={setOpenFailedPaymentModal}>
-                <Typography className='bold40' color='rgba(255, 83, 83, 1)' textAlign='center'>
-                    Failed!
-                </Typography>
-                <Typography className='bold14'>
-                    Transaction was unsuccessful.
-                </Typography>
+                <Box textAlign="center">
+                    <Typography className='bold40' color='rgba(255, 83, 83, 1)' textAlign='center'>
+                        Failed!
+                    </Typography>
+                    <Typography className='bold14'>
+                        Transaction was unsuccessful.
+                    </Typography>
+                </Box>
             </PaymentStatusModal>
 
             <PaymentStatusModal modalContainerStyle={styles.pendingModalContainer}
                                 open={openPendingPaymentModal}
                                 setOpen={setOpenPendingPaymentModal}>
-                <Typography className='bold40' color='rgba(43,89,180, 1)' textAlign='center'>
-                    Transferring...
-                </Typography>
-                <Typography className='bold14'>
-                    Please wait a little.
-                </Typography>
+                <Box textAlign="center">
+                    <Typography className='bold40' color='rgba(43,89,180, 1)' textAlign='center'>
+                        Transferring...
+                    </Typography>
+                    <Typography className='bold14'>
+                        Please wait a little.
+                    </Typography>
+                </Box>
             </PaymentStatusModal>
         </>
     )
