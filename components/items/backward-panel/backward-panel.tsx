@@ -10,11 +10,7 @@ interface Props {
 
 export const BackwardPanel: FunctionComponent<Props> = ({children, onClick}) => {
     return (
-        <Box sx={{
-            display:'flex',
-            marginLeft: '40px',
-            marginBottom: '20px'
-        }}>
+        <Box className={styles.panelContainer}>
             <IconButton className={styles.backIcon}
                         component="label"
                         onClick={onClick}>

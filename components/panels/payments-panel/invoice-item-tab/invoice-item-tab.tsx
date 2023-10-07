@@ -3,7 +3,7 @@ import {Box, Typography} from "@mui/material";
 import styles from "./invoice-item-tab.module.css";
 import {useRouter} from "next/router";
 import {Asset, Invoice} from "../../../types";
-import {CustomDivider, CustomGridRow, TokenAmountItem, InformationContainer} from "../../../items";
+import {CustomDivider, CustomGridRow, TokenAmountItem, InformationContainer, BackwardPanel} from "../../../items";
 import {InvoiceStatusItem} from "./invoice-status-item";
 import {CommonButton} from "../../../buttons";
 import axios from "axios";
@@ -34,6 +34,15 @@ export const InvoiceItemTab: FunctionComponent = () => {
 
     return (
         <>
+            <BackwardPanel onClick={() => invoicePage && router.push('/payments/invoices') || setInvoicePage(true)}>
+                <Typography textAlign='left' className='bold16'  color='rgba(136, 136, 136, 1)' >
+                    Invoice:
+                </Typography>
+                <Typography textAlign='left' className='bold20'>
+                    #{invoice}
+                </Typography>
+            </BackwardPanel>
+
             {invoiceItem &&
                 <InformationContainer padding="25px">
                     {invoicePage ?
