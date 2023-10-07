@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from "react";
 import {Box, Container, Grid} from "@mui/material";
-
 import styles from "./header.module.css";
 import classNames from "classnames";
 import Link from "next/link";
@@ -8,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import {LoginButton} from "../../buttons";
 import headerLogo from "../../../public/headerLogo.svg";
 import Image from "next/image";
+import {ServiceSearch} from "../../service-search";
 
 interface Props {
     index: number;
@@ -63,7 +63,7 @@ export const Header: FunctionComponent<Props> = ({index}) => {
                     </Grid>
                     <Grid item xs={12} md={5}
                           sx={{display: 'flex', justifyContent: 'flex-end', height: 'inherit', alignItems: 'center'}}>
-                        Add Input
+                        <ServiceSearch/>
                     </Grid>
                     <Grid item xs={12} md={3}
                           sx={{display: 'flex', justifyContent: 'flex-end', height: 'inherit', alignItems: 'center'}}>

@@ -1,0 +1,51 @@
+.frameContainer {
+    max-width: 600px;
+    min-height: 100px;
+    background: rgba(128, 128, 128, 0.5);
+    border-radius: 6px;
+    border: 1px solid white;
+    margin: 20px;
+    padding: 60px;
+}
+
+.frameContainer:nth-child(2) {
+    position: relative;
+    left: 40%;
+}
+
+.frameContainer:nth-child(4) {
+    position: relative;
+    left: 40%;
+}
+
+.frameContainer h1 {
+    text-align: center;
+    margin: 5px 0;
+}
+
+.frameContainer p {
+    margin: 5px 20px 15px 20px;
+}
+
+.frameContainer a {
+    text-decoration: none;
+    color: white;
+}
+
+.frameContainer button {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.frameContainer button:hover {
+    cursor: pointer;
+}
+
+.frameContainer button:active {
+    border: 1px solid black;
+}

@@ -1,20 +1,12 @@
-import {PageLayout} from '../components/layouts';
-import {NextPage} from "next";
-import {Container} from "@mui/material";
 import * as React from "react";
+import {NextPage} from "next";
+import {PageLayout} from '../components/layouts';
+import MainPagePanel from "../components/panels/main-page-panel/main-page-panel";
 
 const HomePage: NextPage = () => {
     return (
         <PageLayout index={-1}>
-            <Container sx={{
-                mt: 5, mb: 5,
-                p: 0,
-                display: 'flex',
-                overflow: 'none',
-                height: '100%',
-                maxWidth: 'none'
-            }}>
-            </Container>
+            <MainPagePanel/>
         </PageLayout>
     )
 }
