@@ -7,3 +7,23 @@
     border-radius: 6px;
     overflow: hidden;
 }
+
+.successModalContainer {
+    position: absolute;
+    width: 700px;
+    height: 300px;
+    top: calc(50% - 200px);
+    left: calc(50% - 350px);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.failModalContainer, .pendingModalContainer {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
+    border-radius: 6px;
+    overflow: hidden;
+}

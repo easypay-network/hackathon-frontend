@@ -2,13 +2,14 @@ import React, {FunctionComponent, useEffect, useState} from "react";
 import {Box, Typography} from "@mui/material";
 import styles from "./invoice-item-tab.module.css";
 import {useRouter} from "next/router";
-import {Asset, Invoice} from "../../../types";
+import {Asset, Invoice, PathFinderResponse} from "../../../types";
 import {CustomDivider, CustomGridRow, TokenAmountItem, InformationContainer, BackwardPanel} from "../../../items";
 import {InvoiceStatusItem} from "./invoice-status-item";
 import {CommonButton} from "../../../buttons";
 import axios from "axios";
 import {apiUrl} from "../../../constants";
 import { PaymentConfirmModal } from "../../../modals";
+import RoutingTable from "../../../routing-table/routing-table";
 
 export const InvoiceItemTab: FunctionComponent = () => {
     const router = useRouter();
@@ -19,6 +20,8 @@ export const InvoiceItemTab: FunctionComponent = () => {
     const [invoicePage, setInvoicePage] = useState(true);
 
     const [invoiceItem, setInvoiceItem] = useState<Invoice>();
+
+    const [pathFinderResponse, setPathFinderResponse] = useState<PathFinderResponse>({} as PathFinderResponse)
 
     useEffect(() => {
         if (!invoice) {
@@ -31,6 +34,25 @@ export const InvoiceItemTab: FunctionComponent = () => {
             })
             .catch((error) => console.error(error));
     }, [invoice]);
+
+    const calculatePaymentPath = () => {
+        axios.get(`${apiUrl}/pathfinder/try`,
+            {
+                params: {
+                    sourceDenom: invoiceItem?.payedAsset?.denom,
+                    destinationDenom: invoiceItem?.requestedAsset?.denom,
+                    amount: invoiceItem?.requestedAmount,
+                    address: invoiceItem?.receiver?.address
+                }
+            })
+            .then((response) => {
+                setPathFinderResponse(response.data);
+                setInvoiceItem({...invoiceItem, payedAmount: response.data.destinationTokenAmount} as Invoice);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     return (
         <>
@@ -149,7 +171,14 @@ export const InvoiceItemTab: FunctionComponent = () => {
                                     />
                                 </CustomGridRow>
                                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                    <CommonButton width='200px' onClick={()=>setOpen(true)}>
+                                    <CommonButton width='200px' onClick={calculatePaymentPath} disabled={!invoiceItem?.payedAsset}>
+                                        <Typography className="bold16">Get routes</Typography>
+                                    </CommonButton>
+                                </Box>
+                                <CustomDivider/>
+                                <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>
+                                <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
+                                    <CommonButton width='200px' onClick={()=>setOpen(true)} disabled={!invoiceItem?.payedAmount}>
                                         <Typography className="bold16">Initiate payment</Typography>
                                     </CommonButton>
                                 </Box>
@@ -163,6 +192,7 @@ export const InvoiceItemTab: FunctionComponent = () => {
                 open={open}
                 setOpen={setOpen}
                 invoiceItem={invoiceItem}
+                pathFinderResponse={pathFinderResponse}
             />
         </>
     );

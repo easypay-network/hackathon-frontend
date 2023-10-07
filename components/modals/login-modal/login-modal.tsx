@@ -55,26 +55,26 @@ export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
             setOpen={setOpen}
         >
             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Box>
+                <Box textAlign="center">
                     <Typography className={classNames('bold16', walletConnected && styles.connectedLabel)}
                                 paddingBottom='16px'
                     >
                         Connect your Wallet
                     </Typography>
-                    <CommonButton onClick={onKeplerConnect} disabled={walletConnected}>
+                    <CommonButton width="200px" onClick={onKeplerConnect} disabled={walletConnected}>
                         <Typography className="medium14">
                             Keplr
                         </Typography>
                     </CommonButton>
                 </Box>
                 <CustomDivider/>
-                <Box>
+                <Box textAlign="center">
                     <Typography className={classNames('bold16', emailVerified && styles.connectedLabel)}
                                 paddingBottom='16px'
                     >
                         Connect your Email
                     </Typography>
-                    <CommonButton onClick={googleLogin} disabled={emailVerified}>
+                    <CommonButton width="200px"  onClick={googleLogin} disabled={emailVerified}>
                         <Typography className="medium14">
                             Gmail
                         </Typography>
