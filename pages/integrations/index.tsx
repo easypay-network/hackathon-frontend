@@ -4,7 +4,7 @@ import {PageLayout} from "../../components/layouts";
 const IntegrationsPage: NextPage = () => {
     return (
         <PageLayout index={3}>
-            IntegrationsPage
+            We work on it
         </PageLayout>
     )
 }
