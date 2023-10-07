@@ -119,3 +119,28 @@ export interface Category {
     imageUrl: string;
     featured: boolean;
 }
+
+export interface Product {
+    identity: number;
+    title: string;
+    description: string;
+    imageUrl: string;
+    requestedAmount: number;
+    creationDate: string;
+    dueDate: string;
+    receiver: {
+        identity: number;
+        address: string;
+        relatedZone: {
+            identity: number;
+            logoUrl: string;
+            networkId: string;
+            name: string;
+        };
+    };
+    requester: {
+        identity: number;
+        address: string;
+    };
+    requestedAsset: Asset;
+}
