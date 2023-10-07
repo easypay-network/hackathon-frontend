@@ -12,7 +12,7 @@ const MainPagePanel: NextPage = () => {
                     Discover our catalog of diverse asset categories tailored for Web 3 payments. Our collection offers
                     a wide array of assets designed to facilitate secure and efficient transactions within the Web 3
                     ecosystem. Explore the future of digital commerce with our curated selection, where innovation meets
-                    seamless payment solutions. Whether you're a developer, investor, or enthusiast, our catalog has the
+                    seamless payment solutions. Whether you`&#39;re a developer, investor, or enthusiast, our catalog has the
                     resources you need to thrive in the decentralized web space.
                 </p>
                 <Link href='/catalog'>
@@ -23,7 +23,7 @@ const MainPagePanel: NextPage = () => {
                 <h1>Payments</h1>
                 <p>
                     Our Payments service offers a versatile platform that empowers users to effortlessly manage their
-                    financial transactions. Whether it's paying invoices, generating invoices, or compiling
+                    financial transactions. Whether it`&#39;s paying invoices, generating invoices, or compiling
                     comprehensive reports, our service provides a seamless and user-friendly experience. With our
                     intuitive tools and robust features, you can streamline your financial processes, ensuring
                     efficiency and accuracy every step of the way.
