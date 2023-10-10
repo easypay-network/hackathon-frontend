@@ -2,6 +2,7 @@ import React, {FunctionComponent} from "react";
 import {Product} from "../../../../types";
 import styles from "./product-item.module.css";
 import {Box, Button, Typography} from "@mui/material";
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 
 interface Props {
     product: Product;
@@ -40,6 +41,7 @@ export const ProductItem: FunctionComponent<Props> = ({product, onSelect}) => {
                                 Token
                             </Typography>
                         </Box>
+                        <ArrowOutwardIcon sx={{position: 'absolute', bottom: '12px', right: '12px'}}/>
                     </Box>
                 </Box>
             </Box>

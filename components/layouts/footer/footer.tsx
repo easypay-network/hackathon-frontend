@@ -16,7 +16,7 @@ export const Footer: FunctionComponent = () => {
                     Developed during
                 </Typography>
                 <Typography fontFamily="Inter"  className="bold16">
-                    &nbsp;Hackmos Istanbul 2023
+                    &nbsp;Hackathon 2023
                 </Typography>
             </Box>
             <Box sx={{
