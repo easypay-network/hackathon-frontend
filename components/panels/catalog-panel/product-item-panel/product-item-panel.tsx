@@ -9,7 +9,6 @@ import {
     CustomDivider,
     CustomGridRow,
     InformationContainer,
-    PanelContainer,
     TokenAmountItem
 } from "../../../items";
 import capitalizeString from "../../../utils";

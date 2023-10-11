@@ -140,3 +140,30 @@
     font-size: 40px;
     line-height: 48px;
 }
+
+.productTitle20 {
+    color: #0C0000;
+    font-family: Gilroy, serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+}
+
+.productDescription10 {
+    color: #3E3E3E;
+    font-family: Inter, serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.productIdentity10 {
+    color: #0C0000;
+    font-family: Inter, serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}

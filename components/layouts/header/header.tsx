@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Link from "next/link";
 import Typography from "@mui/material/Typography";
 import {LoginButton} from "../../buttons";
-import headerLogo from "../../../public/headerLogo.svg";
+import headerLogo from "../../../public/headerLogo.png";
 import Image from "next/image";
 import {ServiceSearch} from "../../service-search";
 

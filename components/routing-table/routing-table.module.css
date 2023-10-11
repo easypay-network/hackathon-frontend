@@ -66,6 +66,12 @@
 
 .assetCell img {
     display: inline;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    position: relative;
+    top: 4px;
+    left: 0;
 }
 
 .zone {
