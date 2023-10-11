@@ -141,14 +141,6 @@
     line-height: 48px;
 }
 
-.productTitle20 {
-    color: #0C0000;
-    font-family: Gilroy, sans-serif;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 100%;
-}
 
 .productDescription10 {
     color: #3E3E3E;
@@ -166,4 +158,22 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+}
+
+@font-face {
+    font-family: 'GilroyBold';
+    src: local('GilroyBold'),
+        url('fonts/Gilroy-Bold.woff2') format('woff2'),
+        url('fonts/Gilroy-Bold.eot') format('eot'),
+        url('fonts/Gilroy-Bold.woff') format('woff'),
+        url('fonts/Gilroy-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.productTitle20 {
+    color: #0C0000;
+    font-family: GilroyBold, sans-serif;
+    font-size: 20px;
+    line-height: 100%;
 }

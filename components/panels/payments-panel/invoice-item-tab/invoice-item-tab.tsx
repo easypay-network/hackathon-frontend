@@ -81,6 +81,11 @@ export const InvoiceItemTab: FunctionComponent = () => {
                                         <Typography className='bold20'>{invoiceItem?.identity}</Typography>
                                     </Box>
                                 </CustomGridRow>
+                                <CustomGridRow label="Description:">
+                                    <Typography className='bold30'>
+                                        <Typography className='bold20'>{invoiceItem?.description}</Typography>
+                                    </Typography>
+                                </CustomGridRow>
                                 <CustomDivider/>
                                 <CustomGridRow label='Requester:'>
                                     <Typography className='bold12'>{invoiceItem?.requester?.address}</Typography>
