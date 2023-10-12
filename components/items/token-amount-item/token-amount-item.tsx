@@ -30,6 +30,7 @@ export const TokenAmountItem: FunctionComponent<Props> = ({
                         display: 'flex',
                         alignItems: 'center',
                         padding: '0 10px',
+                        marginBottom: '16px',
                         columnGap: '10px'
                     }}>
                         {tokenAsset && tokenAsset?.locatedZone?.name &&

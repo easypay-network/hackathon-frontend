@@ -21,21 +21,29 @@ export const AssetSelector: FunctionComponent<Props> = ({selectedAsset, updateSe
     }, []);
 
     return (
-        <select className={styles.tokenSelect}
-                value={selectedAsset?.denom}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>)=> {
-                    const asset = assets.filter((asset) => asset.denom === e.target.value)[0];
-                    updateSelectedAsset(asset);
-                }}
-        >
-            <option>{''}</option>
-            {assets.map((asset) => (
-                <option key={asset.denom} value={asset.denom} className={styles.assetList}>
-                    {asset.ticker ? asset.ticker.toUpperCase() : asset.localTicker?.toUpperCase()}
-                    &nbsp;&nbsp;&nbsp;&nbsp;on&nbsp;&nbsp;&nbsp;&nbsp;
-                    {asset.locatedZone.name.toUpperCase()}
-                </option>
-            ))}
-        </select>
+        <>
+            {!assets.length ?
+                <select disabled={true}
+                        className={`${styles.tokenSelect} ${styles.pulsatingText}`}>
+                    <option>Loading...</option>
+                </select>
+                :
+                <select className={styles.tokenSelect}
+                        value={selectedAsset?.denom}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                            const asset = assets.filter((asset) => asset.denom === e.target.value)[0];
+                            updateSelectedAsset(asset);
+                        }}
+                >
+                    <option>{''}</option>
+                    {assets.map((asset) => (
+                        <option key={asset.denom} value={asset.denom} className={styles.assetList}>
+                            {asset.ticker ? asset.ticker.toUpperCase() : asset.localTicker?.toUpperCase()}
+                            &nbsp;&nbsp;&nbsp;&nbsp;on&nbsp;&nbsp;&nbsp;&nbsp;
+                            {asset.locatedZone.name.toUpperCase()}
+                        </option>
+                    ))}
+                </select>}
+        </>
     );
 }

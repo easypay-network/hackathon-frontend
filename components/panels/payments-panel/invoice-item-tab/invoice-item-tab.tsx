@@ -3,7 +3,14 @@ import {Box, Typography} from "@mui/material";
 import styles from "./invoice-item-tab.module.css";
 import {useRouter} from "next/router";
 import {Asset, Invoice, PathFinderResponse} from "../../../types";
-import {CustomDivider, CustomGridRow, TokenAmountItem, InformationContainer, BackwardPanel} from "../../../items";
+import {
+    CustomDivider,
+    CustomGridRow,
+    TokenAmountItem,
+    InformationContainer,
+    BackwardPanel,
+    LoadingItem
+} from "../../../items";
 import {InvoiceStatusItem} from "./invoice-status-item";
 import {CommonButton} from "../../../buttons";
 import axios from "axios";
@@ -23,6 +30,8 @@ export const InvoiceItemTab: FunctionComponent = () => {
 
     const [pathFinderResponse, setPathFinderResponse] = useState<PathFinderResponse>({} as PathFinderResponse)
 
+    const [routingTableIsLoading, setRoutingTableIsLoading] = useState(false)
+
     useEffect(() => {
         if (!invoice) {
             return
@@ -36,6 +45,7 @@ export const InvoiceItemTab: FunctionComponent = () => {
     }, [invoice]);
 
     const calculatePaymentPath = () => {
+        setRoutingTableIsLoading(true)
         axios.get(`${apiUrl}/pathfinder/try`,
             {
                 params: {
@@ -48,9 +58,11 @@ export const InvoiceItemTab: FunctionComponent = () => {
             .then((response) => {
                 setPathFinderResponse(response.data);
                 setInvoiceItem({...invoiceItem, payedAmount: response.data.destinationTokenAmount} as Invoice);
+                setRoutingTableIsLoading(false);
             })
             .catch((error) => {
                 console.error(error);
+                setRoutingTableIsLoading(false);
             });
     }
 
@@ -65,7 +77,7 @@ export const InvoiceItemTab: FunctionComponent = () => {
                 </Typography>
             </BackwardPanel>
 
-            {invoiceItem &&
+            {!invoiceItem ? <LoadingItem/> :
                 <InformationContainer padding="25px">
                     {invoicePage ?
                         <>
@@ -181,7 +193,7 @@ export const InvoiceItemTab: FunctionComponent = () => {
                                     </CommonButton>
                                 </Box>
                                 <CustomDivider/>
-                                <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>
+                                {routingTableIsLoading ? <div style={{position: 'relative', height: '200px'}}><LoadingItem/></div> : <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>}
                                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
                                     <CommonButton width='200px' onClick={()=>setOpen(true)} disabled={!invoiceItem?.payedAmount}>
                                         <Typography className="bold16">Initiate payment</Typography>

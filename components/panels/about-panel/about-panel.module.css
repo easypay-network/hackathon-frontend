@@ -56,10 +56,6 @@
     position: relative;
 }
 
-.memberCard img {
-    border-radius: 6px;
-}
-
 .socialContainer {
     position: absolute;
     bottom: 14px;

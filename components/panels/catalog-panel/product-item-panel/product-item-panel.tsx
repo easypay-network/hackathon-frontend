@@ -8,10 +8,10 @@ import {
     BackwardPanel,
     CustomDivider,
     CustomGridRow,
-    InformationContainer,
+    InformationContainer, LoadingItem,
     TokenAmountItem
 } from "../../../items";
-import capitalizeString from "../../../utils";
+import Utils from "../../../utils";
 import {CommonButton} from "../../../buttons";
 import styles from "./product-item-panel.module.css";
 
@@ -39,13 +39,13 @@ export const ProductItemPanel: FunctionComponent = () => {
         <Box sx={{width: '100%'}}>
             <BackwardPanel onClick={() => router.push(`/catalog/${category}`)}>
                 <Typography textAlign='left' className='bold16'  color='rgba(136, 136, 136, 1)'>
-                    {capitalizeString(category as string)}:
+                    {Utils.capitalizeString(category as string)}:
                 </Typography>
                 <Typography textAlign='left' className='bold20'>
                     #{product}
                 </Typography>
             </BackwardPanel>
-            {productItem &&
+            {!productItem ? <LoadingItem/> :
                 <InformationContainer padding='25px'>
                     <Box sx={{display: 'flex', flexDirection: 'column', width: '70%', rowGap: '14px'}}>
                         <CustomGridRow label="Title:">

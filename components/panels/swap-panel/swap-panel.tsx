@@ -17,6 +17,7 @@ import Long from "long";
 import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {PaymentStatusModal} from "../../modals";
+import {LoadingItem} from "../../items";
 
 const SwapPage: NextPage = () => {
     const {kepler} = useKeplerContext();
@@ -54,8 +55,11 @@ const SwapPage: NextPage = () => {
         setAmount2(childAmount);
     };
 
+    const [routingTableIsLoading, setRoutingTableIsLoading] = useState(false)
+
     const calculatePaymentPath = () => {
         if (token1 && token2 && amount1 && address) {
+            setRoutingTableIsLoading(true);
             axios.get(`${apiUrl}/pathfinder/try`,
                 {
                     params: {
@@ -68,9 +72,11 @@ const SwapPage: NextPage = () => {
                 .then((response) => {
                     setPathFinderResponse(response.data);
                     setAmount2(response.data.destinationTokenAmount);
+                    setRoutingTableIsLoading(false);
                 })
                 .catch((error) => {
                     console.error(error);
+                    setRoutingTableIsLoading(false);
                 });
         } else {
             alert('Fill in the fields');
@@ -84,7 +90,7 @@ const SwapPage: NextPage = () => {
 
         const transactionType = pathFinderResponse?.transactionType;
 
-        const tokenAmount: Coin =  {
+        const tokenAmount: Coin = {
             denom: denom,
             amount: DecUtils.getTenExponentN(6).mul(new Dec(requestedAmount)).truncate().toString(),
         };
@@ -184,23 +190,32 @@ const SwapPage: NextPage = () => {
                     </Typography>
                 </Box>
                 <Box className={styles.container}>
-                    <SelectToken  label={'From:'} token={token1} amount={amount1} onDataUpdate={handleDataFromSelect1} assets={assets} disabledSelect={false} disabledInput={false}/>
-                    <SelectToken  label={'to:'} token={token2} amount={amount2} onDataUpdate={handleDataFromSelect2} assets={assets} disabledSelect={false} disabledInput={true}/>
-                    <div className={styles.tokenContainer}>
-                        <div className={styles.addressContainer}>
-                            <label className={styles.addressLabel}>Address</label>
-                            <input className={styles.addressInput} onChange={(event:React.ChangeEvent<HTMLInputElement>) => setAddress(event.target.value)}/>
-                        </div>
-                    </div>
-                    <button onClick={calculatePaymentPath} className={styles.tempBtn}>Get routes</button>
-                    <hr color={"#888"}/>
-                    <h3>Routing</h3>
-                    <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>
-                    <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                        <CommonButton onClick={makeSwap} disabled={!pathFinderResponse?.pathResults}>
-                            <Typography className="bold16">Swap</Typography>
-                        </CommonButton>
-                    </Box>
+                    {!assets.length ? <LoadingItem/> :
+                        <>
+                            <SelectToken label={'From:'} token={token1} amount={amount1}
+                                         onDataUpdate={handleDataFromSelect1} assets={assets} disabledSelect={false}
+                                         disabledInput={false}/>
+                            <SelectToken label={'to:'} token={token2} amount={amount2}
+                                         onDataUpdate={handleDataFromSelect2} assets={assets} disabledSelect={false}
+                                         disabledInput={true}/>
+                            <div className={styles.tokenContainer}>
+                                <div className={styles.addressContainer}>
+                                    <label className={styles.addressLabel}>Address</label>
+                                    <input className={styles.addressInput}
+                                           onChange={(event: React.ChangeEvent<HTMLInputElement>) => setAddress(event.target.value)}/>
+                                </div>
+                            </div>
+                            <button onClick={calculatePaymentPath} className={styles.tempBtn}>Get routes</button>
+                            <hr color={"#888"}/>
+                            <h3>Routing</h3>
+                            {routingTableIsLoading ? <div style={{position: 'relative', height: '200px'}}><LoadingItem/></div> : <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>}
+                            <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
+                                <CommonButton onClick={makeSwap} disabled={!pathFinderResponse?.pathResults}>
+                                    <Typography className="bold16">Swap</Typography>
+                                </CommonButton>
+                            </Box>
+                        </>
+                    }
                 </Box>
             </Box>
 
