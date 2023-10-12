@@ -3,7 +3,7 @@ import {Product} from "../../../../types";
 import styles from "./product-item.module.css";
 import {Box, Button, Typography} from "@mui/material";
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import Utils from "../../../../utils"
+import Utils from "../../../../utils/utils"
 
 interface Props {
     product: Product;

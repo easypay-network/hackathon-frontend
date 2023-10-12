@@ -9,18 +9,21 @@ import SelectToken from "../../select-token/select-token";
 import {Asset, PathFinderResponse} from "../../types";
 import RoutingTable from "../../routing-table/routing-table";
 import {CommonButton} from "../../buttons";
-import {apiUrl, rpcAddresses} from "../../constants";
-import {useKeplerContext} from "../../../contexts";
+import {apiUrl, keplrNetworks, phantomNetworks, rpcAddresses} from "../../constants";
+import {useKeplrContext, usePhantomContext} from "../../../contexts";
 import {AccountData, Coin, StdFee} from "@keplr-wallet/types";
 import {Dec, DecUtils} from "@keplr-wallet/unit";
 import Long from "long";
 import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {PaymentStatusModal} from "../../modals";
+import pollSignatureStatus from "../../utils/pollSignatureStatus";
+import {Connection, PublicKey, SystemProgram, Transaction} from "@solana/web3.js";
 import {LoadingItem} from "../../items";
 
 const SwapPage: NextPage = () => {
-    const {kepler} = useKeplerContext();
+    const {keplr} = useKeplrContext();
+    const {phantomProvider} = usePhantomContext();
 
     const [assets, setAssets] = useState<Asset[]>([])
     const [token1, setToken1] = useState<Asset>({} as Asset);
@@ -84,9 +87,9 @@ const SwapPage: NextPage = () => {
     }
 
     const constructTxMessage = (senderAddress: string) => {
-        const denom = pathFinderResponse?.pathResults[0]?.startNode?.properties?.ticker || "";
-        const receiverAddress = pathFinderResponse?.address || "";
-        const requestedAmount = amount1 || 0;
+        const denom = token1?.denom || "";
+        const receiverAddress = address || "";
+        const requestedAmount = pathFinderResponse?.destinationTokenAmount || 0;
 
         const transactionType = pathFinderResponse?.transactionType;
 
@@ -126,13 +129,67 @@ const SwapPage: NextPage = () => {
         }
     }
 
-    const makeSwap = async () => {
+    const makePhantomTransaction = async () => {
+        const denom = token1?.denom || "";
+        const chainId = token1?.locatedZone?.networkId || "";
+        const receiverAddress = address || "";
+        const requestedAmount = pathFinderResponse?.destinationTokenAmount || 0;
+
+        const transactionType = pathFinderResponse?.transactionType;
+
+        if (!phantomProvider) {
+            alert("Phantom is not setup");
+            return;
+        }
+
+        const rpcUrl = rpcAddresses.get(chainId) || "";
+
+        if (transactionType === "TRANSFER") {
+            const senderAddress = phantomProvider.publicKey;
+
+            const connection = new Connection(rpcUrl);
+
+            const transaction = new Transaction({
+                feePayer: senderAddress,
+                recentBlockhash: (await connection.getLatestBlockhash()).blockhash
+            });
+
+            transaction.add(
+                SystemProgram.transfer({
+                    fromPubkey: senderAddress,
+                    toPubkey: new PublicKey(receiverAddress),
+                    lamports: BigInt(DecUtils.getTenExponentN(9).mul(new Dec(requestedAmount)).truncate().toString()),
+                })
+            );
+
+            setOpenPendingPaymentModal(true);
+
+            phantomProvider.signAndSendTransaction(
+                transaction,
+                {skipPreflight: false}
+            ).then(({signature}) => {
+                setTransactionNumber(signature);
+                return pollSignatureStatus(signature, connection);
+            }).then(() => {
+                setOpenPendingPaymentModal(false);
+                setOpenSuccessPaymentModal(true);
+            }).catch((error) => {
+                console.error(error);
+                setOpenPendingPaymentModal(false);
+                setOpenFailedPaymentModal(true);
+            });
+        } else {
+            alert("IBC Transfer is not supported for Solana");
+        }
+    }
+
+    const makeKeplrTransaction = async () => {
         const denom = token1?.denom || "";
         const chainId = token1?.locatedZone?.networkId || "";
         const txMemo = pathFinderResponse?.txMemo || '';
 
-        if (!kepler) {
-            alert("Kepler is not setup");
+        if (!keplr) {
+            alert("Keplr is not setup");
             return;
         }
 
@@ -141,7 +198,7 @@ const SwapPage: NextPage = () => {
             gas: "200000",
         };
 
-        const offlineSigner = kepler.getOfflineSigner(chainId);
+        const offlineSigner = keplr.getOfflineSigner(chainId);
         const account: AccountData = (await offlineSigner.getAccounts())[0];
         const rpcUrl = rpcAddresses.get(chainId) || "";
 
@@ -151,8 +208,6 @@ const SwapPage: NextPage = () => {
         );
 
         const transferMsg = constructTxMessage(account.address) as EncodeObject;
-
-        console.log(transferMsg);
 
         setOpenPendingPaymentModal(true);
 
@@ -175,6 +230,18 @@ const SwapPage: NextPage = () => {
             setOpenPendingPaymentModal(false);
             setOpenFailedPaymentModal(true);
         });
+    }
+
+    const makeSwap = async () => {
+        const chainId = token1?.locatedZone?.networkId || "";
+
+        if (keplrNetworks.includes(chainId)) {
+            await makeKeplrTransaction();
+        } else if (phantomNetworks.includes(chainId)) {
+            await makePhantomTransaction();
+        } else {
+            alert(`Network ${token1?.locatedZone?.name} is not supported yet.`);
+        }
     }
 
 
@@ -223,10 +290,10 @@ const SwapPage: NextPage = () => {
                                 open={openSuccessPaymentModal}
                                 setOpen={setOpenSuccessPaymentModal}>
                 <Box textAlign="center">
-                    <Typography className='bold40' color='rgba(0, 173, 69, 1)' textAlign='center'>
+                    <Typography className='bold40' color='rgba(0, 173, 69, 1)'>
                         Success!
                     </Typography>
-                    <Typography className='bold14' textAlign='center'>
+                    <Typography className='bold14'>
                         Transaction:
                         <br/>
                         {transactionNumber}
@@ -238,7 +305,7 @@ const SwapPage: NextPage = () => {
                                 open={openFailedPaymentModal}
                                 setOpen={setOpenFailedPaymentModal}>
                 <Box textAlign="center">
-                    <Typography className='bold40' color='rgba(255, 83, 83, 1)' textAlign='center'>
+                    <Typography className='bold40' color='rgba(255, 83, 83, 1)'>
                         Failed!
                     </Typography>
                     <Typography className='bold14'>
@@ -251,7 +318,7 @@ const SwapPage: NextPage = () => {
                                 open={openPendingPaymentModal}
                                 setOpen={setOpenPendingPaymentModal}>
                 <Box textAlign="center">
-                    <Typography className='bold40' color='rgba(43,89,180, 1)' textAlign='center'>
+                    <Typography className='bold40' color='rgba(43,89,180, 1)'>
                         Transferring...
                     </Typography>
                     <Typography className='bold14'>

@@ -1,15 +1,16 @@
 import React, {FunctionComponent} from "react";
 import {Box, Typography} from "@mui/material";
 import styles from "./login-modal.module.css";
-import {useKeplerContext, useUserInfoContext} from "../../../contexts";
+import {useKeplrContext, usePhantomContext, useUserInfoContext} from "../../../contexts";
 import {useGoogleLogin} from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
 import {getKeplrFromWindow} from "./getKeplrFromWindow";
-import {rpcAddresses} from "../../constants";
+import {keplrNetworks, rpcAddresses} from "../../constants";
 import {CommonButton} from "../../buttons";
 import {CommonModal} from "../common-modal";
 import {CustomDivider} from "../../items";
+import getPhantomFromWindow from "./getPhantomFromWindow";
 
 interface Props {
     open: boolean;
@@ -17,22 +18,28 @@ interface Props {
 }
 
 export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
-    const {setKepler, walletConnected, setWalletConnected} = useKeplerContext();
+    const {setKeplr, keplrWalletConnected, setKeplrWalletConnected} = useKeplrContext();
+    const {setPhantomProvider, phantomWalletConnected} = usePhantomContext();
     const {setEmail, emailVerified, setEmailVerified} = useUserInfoContext();
 
-    const onKeplerConnect = () => {
+    const onKeplrConnect = () => {
         getKeplrFromWindow().then((keplr) => {
             if (!keplr || !keplr.getOfflineSigner) {
-                alert("Please install kepler extension");
+                alert("Please install keplr extension");
             } else {
-                keplr.enable([...rpcAddresses.keys()])
+                keplr.enable([...rpcAddresses.keys()].filter(network => keplrNetworks.includes(network)))
                     .then(() => {
-                        setKepler(keplr);
-                        setWalletConnected(true);
+                        setKeplr(keplr);
+                        setKeplrWalletConnected(true);
                     })
                     .catch((error) => console.error(error));
             }
         });
+    }
+
+    const onPhantomConnect = () => {
+        const phantom = getPhantomFromWindow();
+        if (phantom) setPhantomProvider(phantom);
     }
 
     const googleLogin = useGoogleLogin({
@@ -56,12 +63,25 @@ export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
         >
             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Box textAlign="center">
-                    <Typography className={classNames('bold16', walletConnected && styles.connectedLabel)}
+                    <Typography className={classNames('bold16', phantomWalletConnected && styles.connectedLabel)}
                                 paddingBottom='16px'
                     >
-                        Connect your Wallet
+                        Connect your Phantom Wallet
                     </Typography>
-                    <CommonButton width="200px" onClick={onKeplerConnect} disabled={walletConnected}>
+                    <CommonButton width="200px" onClick={onPhantomConnect} disabled={phantomWalletConnected}>
+                        <Typography className="medium14">
+                            Phantom
+                        </Typography>
+                    </CommonButton>
+                </Box>
+                <CustomDivider/>
+                <Box textAlign="center">
+                    <Typography className={classNames('bold16', keplrWalletConnected && styles.connectedLabel)}
+                                paddingBottom='16px'
+                    >
+                        Connect your Keplr Wallet
+                    </Typography>
+                    <CommonButton width="200px" onClick={onKeplrConnect} disabled={keplrWalletConnected}>
                         <Typography className="medium14">
                             Keplr
                         </Typography>

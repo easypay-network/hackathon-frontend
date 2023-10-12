@@ -1,34 +1,35 @@
 import {FunctionComponent, useState} from "react";
 import {Typography} from "@mui/material";
-import {useKeplerContext, useUserInfoContext} from "../../../contexts";
+import {useKeplrContext, usePhantomContext, useUserInfoContext} from "../../../contexts";
 import {LoginModal} from "../../modals";
 import {CommonButton} from "../common-button";
 
 export const LoginButton: FunctionComponent = () => {
-    const {walletConnected} = useKeplerContext();
+    const {keplrWalletConnected} = useKeplrContext();
+    const {phantomWalletConnected} = usePhantomContext();
     const {emailVerified} = useUserInfoContext();
 
     const [open, setOpen] = useState(false);
 
     return (
         <>
-            <CommonButton onClick={()=>setOpen(true)} disabled={walletConnected && emailVerified}>
-                {!walletConnected && !emailVerified &&
+            <CommonButton onClick={()=>setOpen(true)} disabled={keplrWalletConnected && phantomWalletConnected && emailVerified}>
+                {!keplrWalletConnected && !phantomWalletConnected && !emailVerified &&
                     <Typography className='bold16'>
                         Log In
                     </Typography>
                 }
-                {!walletConnected && emailVerified &&
+                {(!keplrWalletConnected || !phantomWalletConnected) && emailVerified &&
                     <Typography className='bold16'>
                         Connect Wallet
                     </Typography>
                 }
-                {walletConnected && !emailVerified &&
+                {(keplrWalletConnected || phantomWalletConnected) && !emailVerified &&
                     <Typography className='bold16'>
                         Connect Email
                     </Typography>
                 }
-                {walletConnected && emailVerified &&
+                {keplrWalletConnected && phantomWalletConnected && emailVerified &&
                     <Typography className='bold16'>
                         Connected
                     </Typography>

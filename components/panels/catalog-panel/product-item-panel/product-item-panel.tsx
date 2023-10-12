@@ -11,7 +11,7 @@ import {
     InformationContainer, LoadingItem,
     TokenAmountItem
 } from "../../../items";
-import Utils from "../../../utils";
+import Utils from "../../../utils/utils";
 import {CommonButton} from "../../../buttons";
 import styles from "./product-item-panel.module.css";
 

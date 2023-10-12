@@ -5,14 +5,16 @@ import {CustomDivider, CustomGridRow, TokenAmountItem} from "../../items";
 import {Invoice, PathFinderResponse} from "../../types";
 import {CommonButton} from "../../buttons";
 import {CommonModal} from "../common-modal";
-import {useKeplerContext} from "../../../contexts";
+import {useKeplrContext, usePhantomContext} from "../../../contexts";
 import {PaymentStatusModal} from "..";
 import {AccountData, Coin, StdFee} from "@keplr-wallet/types";
 import {Dec, DecUtils} from "@keplr-wallet/unit";
 import Long from "long";
-import {rpcAddresses} from "../../constants";
+import {keplrNetworks, phantomNetworks, rpcAddresses} from "../../constants";
 import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
+import {Connection, PublicKey, SystemProgram, Transaction} from "@solana/web3.js";
+import pollSignatureStatus from "../../utils/pollSignatureStatus";
 
 interface Props {
     open: boolean;
@@ -22,7 +24,8 @@ interface Props {
 }
 
 export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, invoiceItem, pathFinderResponse}) => {
-    const {kepler} = useKeplerContext();
+    const {keplr} = useKeplrContext();
+    const {phantomProvider} = usePhantomContext();
 
     const [openSuccessPaymentModal, setOpenSuccessPaymentModal] = useState(false);
     const [openFailedPaymentModal, setOpenFailedPaymentModal] = useState(false);
@@ -32,7 +35,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
 
     const constructTxMessage = (senderAddress: string) => {
         const denom = invoiceItem?.requestedAsset?.denom || "";
-        const receiverAddress = pathFinderResponse?.address || "";
+        const receiverAddress = invoiceItem?.receiver?.address || "";
         const requestedAmount = pathFinderResponse?.destinationTokenAmount || 0;
 
         const transactionType = pathFinderResponse?.transactionType;
@@ -73,13 +76,68 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
         }
     }
 
-    const approvePayment = async () => {
+    const makePhantomTransaction = async () => {
+        const denom = invoiceItem?.requestedAsset?.denom || "";
+        const receiverAddress = invoiceItem?.receiver?.address || "";
+        const requestedAmount = pathFinderResponse?.destinationTokenAmount || 0;
+
+        const chainId = invoiceItem?.requestedAsset?.locatedZone?.networkId || "";
+
+        const transactionType = pathFinderResponse?.transactionType;
+
+        if (!phantomProvider) {
+            alert("Phantom is not setup");
+            return;
+        }
+
+        const rpcUrl = rpcAddresses.get(chainId) || "";
+
+        if (transactionType === "TRANSFER") {
+            const senderAddress = phantomProvider.publicKey;
+
+            const connection = new Connection(rpcUrl);
+
+            const transaction = new Transaction({
+                feePayer: senderAddress,
+                recentBlockhash: (await connection.getLatestBlockhash()).blockhash
+            });
+
+            transaction.add(
+                SystemProgram.transfer({
+                    fromPubkey: senderAddress,
+                    toPubkey: new PublicKey(receiverAddress),
+                    lamports: BigInt(DecUtils.getTenExponentN(9).mul(new Dec(requestedAmount)).truncate().toString()),
+                })
+            );
+
+            setOpenPendingPaymentModal(true);
+
+            phantomProvider.signAndSendTransaction(
+                transaction,
+                {skipPreflight: false}
+            ).then(({signature}) => {
+                setTransactionNumber(signature);
+                return pollSignatureStatus(signature, connection);
+            }).then(() => {
+                setOpenPendingPaymentModal(false);
+                setOpenSuccessPaymentModal(true);
+            }).catch((error) => {
+                console.error(error);
+                setOpenPendingPaymentModal(false);
+                setOpenFailedPaymentModal(true);
+            });
+        } else {
+            alert("IBC Transfer is not supported for Solana");
+        }
+    }
+
+    const makeKeplrTransaction = async () => {
         const denom = invoiceItem?.requestedAsset?.denom || "";
         const chainId = invoiceItem?.requestedAsset?.locatedZone?.networkId || "";
         const txMemo = pathFinderResponse?.txMemo || '';
 
-        if (!kepler) {
-            alert("Kepler is not setup");
+        if (!keplr) {
+            alert("Keplr is not setup");
             return;
         }
 
@@ -88,7 +146,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
             gas: "200000",
         };
 
-        const offlineSigner = kepler.getOfflineSigner(chainId);
+        const offlineSigner = keplr.getOfflineSigner(chainId);
         const account: AccountData = (await offlineSigner.getAccounts())[0];
         const rpcUrl = rpcAddresses.get(chainId) || "";
 
@@ -124,6 +182,18 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
         }).finally(() => {
             setOpen(false);
         });
+    }
+
+    const approvePayment = async () => {
+        const chainId = invoiceItem?.requestedAsset?.locatedZone?.networkId || "";
+
+        if (keplrNetworks.includes(chainId)) {
+            await makeKeplrTransaction();
+        } else if (phantomNetworks.includes(chainId)) {
+            await makePhantomTransaction();
+        } else {
+            alert(`Network ${invoiceItem?.requestedAsset?.locatedZone?.name} is not supported yet.`);
+        }
     }
 
     return (
@@ -174,7 +244,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
             <PaymentStatusModal modalContainerStyle={styles.successModalContainer}
                                 open={openSuccessPaymentModal}
                                 setOpen={setOpenSuccessPaymentModal}>
-                <Box>
+                <Box textAlign="center">
                     <Typography className='bold40' color='rgba(0, 173, 69, 1)'>
                         Success!
                     </Typography>

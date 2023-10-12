@@ -10,4 +10,3 @@ export default {
         return description.length > 70 ? description.slice(0, 70) + '...' : description;
     }
 }
-

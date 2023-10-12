@@ -10,10 +10,10 @@
 
 .successModalContainer {
     position: absolute;
-    width: 700px;
+    width: 900px;
     height: 300px;
     top: calc(50% - 200px);
-    left: calc(50% - 350px);
+    left: calc(50% - 450px);
     border-radius: 6px;
     overflow: hidden;
 }

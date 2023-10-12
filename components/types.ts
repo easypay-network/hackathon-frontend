@@ -1,3 +1,5 @@
+import {PublicKey, Transaction, VersionedTransaction, SendOptions} from '@solana/web3.js';
+
 export interface Invoice {
     identity: number;
     title: string;
@@ -46,7 +48,7 @@ export interface Asset {
     ticker: string;
     logoUrl: string;
     denom: string;
-    denomTrace:string;
+    denomTrace: string;
     originalTicker: string;
     localTicker: string;
     locatedZone: {
@@ -69,7 +71,7 @@ export interface PathFinderResponse {
 }
 
 export interface PathResult {
-    startNode:  {
+    startNode: {
         properties: {
             ticker: string
             localTicker: string,
@@ -87,7 +89,7 @@ export interface PathResult {
             outputChannel: string,
         }
     },
-    endNode:  {
+    endNode: {
         properties: {
             ticker: string
             localTicker: string,
@@ -143,4 +145,40 @@ export interface Product {
         address: string;
     };
     requestedAsset: Asset;
+}
+
+type DisplayEncoding = 'utf8' | 'hex';
+
+type PhantomEvent = 'connect' | 'disconnect' | 'accountChanged';
+
+type PhantomRequestMethod =
+    | 'connect'
+    | 'disconnect'
+    | 'signAndSendTransaction'
+    | 'signAndSendTransactionV0'
+    | 'signAndSendTransactionV0WithLookupTable'
+    | 'signTransaction'
+    | 'signAllTransactions'
+    | 'signMessage';
+
+interface ConnectOpts {
+    onlyIfTrusted: boolean;
+}
+
+export interface PhantomProvider {
+    publicKey: PublicKey;
+    isConnected: boolean;
+    signAndSendTransaction: (
+        transaction: Transaction | VersionedTransaction,
+        opts?: SendOptions
+    ) => Promise<{ signature: string; publicKey: PublicKey }>;
+    signTransaction: (transaction: Transaction | VersionedTransaction) => Promise<Transaction | VersionedTransaction>;
+    signAllTransactions: (
+        transactions: (Transaction | VersionedTransaction)[]
+    ) => Promise<(Transaction | VersionedTransaction)[]>;
+    signMessage: (message: Uint8Array | string, display?: DisplayEncoding) => Promise<any>;
+    connect: (opts?: Partial<ConnectOpts>) => Promise<{ publicKey: PublicKey }>;
+    disconnect: () => Promise<void>;
+    on: (event: PhantomEvent, handler: (args: any) => void) => void;
+    request: (method: PhantomRequestMethod, params: any) => Promise<unknown>;
 }

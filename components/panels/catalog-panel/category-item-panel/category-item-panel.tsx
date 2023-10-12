@@ -4,7 +4,7 @@ import {useRouter} from "next/router";
 import axios from "axios";
 import {apiUrl} from "../../../constants";
 import {BackwardPanel, LoadingItem, PanelContainer} from "../../../items";
-import Utils from "../../../utils";
+import Utils from "../../../utils/utils";
 import {Product} from "../../../types";
 import {ProductItem} from "./product-item";
 
