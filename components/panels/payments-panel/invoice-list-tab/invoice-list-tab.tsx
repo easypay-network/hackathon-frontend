@@ -94,8 +94,8 @@ export const InvoiceListTab: FunctionComponent = () => {
                     </>
                 </CommonButton>
             </Box>
-            {isLoading ? <LoadingItem /> :
                 <TableContainer component={Paper}>
+                    {isLoading ? <LoadingItem /> :
                     <Table className={styles.invoiceTable}>
                         <TableHead>
                             <TableRow>
@@ -209,8 +209,8 @@ export const InvoiceListTab: FunctionComponent = () => {
                             })}
                         </TableBody>
                     </Table>
-                </TableContainer>}
-
+                    }
+                </TableContainer>
         </>
     );
 }

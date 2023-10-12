@@ -55,7 +55,7 @@ export const PaymentsPanel: FunctionComponent<Props> = ({children, index}) => {
                 />
             </Tabs>
 
-            <Box sx={{width: '100%', height: '100%', padding: '20px 90px'}}>
+            <Box sx={{width: '100%', height: '100%', padding: '20px 90px', position: 'relative'}}>
                 <TabPanel value={tabIndex} index={0}>
                     <Typography>Dashboard</Typography>
                 </TabPanel>
