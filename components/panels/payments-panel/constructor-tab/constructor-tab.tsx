@@ -8,6 +8,7 @@ import {Asset, Invoice} from "../../../types";
 import {AssetSelector, CustomDivider, CustomGridRow, InformationContainer} from "../../../items";
 import axios from "axios";
 import {apiUrl} from "../../../constants";
+import {useRouter} from "next/router";
 
 const StyledFormControlLabel= styled(FormControlLabel)(() => ({
     ['.MuiFormControlLabel-label']: {
@@ -32,6 +33,8 @@ const StyledRadio = styled(Radio)(() => ({
 }));
 
 export const ConstructorTab: FunctionComponent = () => {
+    const router = useRouter();
+
     const [formErrors, setFormErrors] = useState({
         title: false,
         imageUrl: false,
@@ -81,7 +84,14 @@ export const ConstructorTab: FunctionComponent = () => {
 
         axios.post(`${apiUrl}/invoices`, newInvoice)
             .then((response) => {
-                alert(`Invoice created with id ${response.data.identity}`);
+                router.push({
+                        pathname: '/payments/invoices/[invoice]',
+                        query: {
+                            invoice: response.data.identity
+                        }
+                    },
+                    `/payments/invoices/${response.data.identity}`,
+                    {shallow: true});
             })
             .catch((error) => console.error(error));
     }

@@ -14,6 +14,7 @@ import {
 import Utils from "../../../utils/utils";
 import {CommonButton} from "../../../buttons";
 import styles from "./product-item-panel.module.css";
+import {format} from "date-fns";
 
 export const ProductItemPanel: FunctionComponent = () => {
     const router = useRouter();
@@ -33,6 +34,32 @@ export const ProductItemPanel: FunctionComponent = () => {
             })
             .catch((error) => console.error(error));
     }, [product]);
+
+    const dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
+
+    const handleCheckOut = () => {
+        const newInvoice = {
+            ...productItem,
+            identity: undefined,
+            status: 'pending',
+            creationDate: format(new Date(), dateFormat),
+            type: 'invoice',
+            direction: 'INCOMING'
+        }
+
+        axios.post(`${apiUrl}/invoices`, newInvoice)
+            .then((response) => {
+                router.push({
+                        pathname: '/payments/invoices/[invoice]',
+                        query: {
+                            invoice: response.data.identity
+                        }
+                    },
+                    `/payments/invoices/${response.data.identity}`,
+                    {shallow: true});
+            })
+            .catch((error) => console.error(error));
+    }
 
     return (
         <>
@@ -95,7 +122,7 @@ export const ProductItemPanel: FunctionComponent = () => {
                             }
                         </CustomGridRow>
                         <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                            <CommonButton width='250px' onClick={() => console.log('check out')}>
+                            <CommonButton width='250px' onClick={handleCheckOut}>
                                 <Typography className="bold16">Check out</Typography>
                             </CommonButton>
                         </Box>
