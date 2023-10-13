@@ -11,3 +11,4 @@ export const keplrNetworks = ["osmo-test-5", "juno-1", "axelar-testnet-lisbon-3"
 export const phantomNetworks = ["solana_testnet"];
 
 export const apiUrl = "https://api.easypay.network";
+export const googleOAuthClientId = "1094710821469-7lg6ktj0bcg2u1m76jg4g5h2ogi3mv2d.apps.googleusercontent.com";

@@ -19,7 +19,7 @@ interface Props {
 
 export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
     const {setKeplr, keplrWalletConnected, setKeplrWalletConnected} = useKeplrContext();
-    const {setPhantomProvider, phantomWalletConnected} = usePhantomContext();
+    const {setPhantomProvider, phantomWalletConnected, setPhantomWalletConnected} = usePhantomContext();
     const {setEmail, emailVerified, setEmailVerified} = useUserInfoContext();
 
     const onKeplrConnect = () => {
@@ -37,9 +37,19 @@ export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
         });
     }
 
-    const onPhantomConnect = () => {
+    const onPhantomConnect = async () => {
         const phantom = getPhantomFromWindow();
-        if (phantom) setPhantomProvider(phantom);
+
+        if (!phantom) {
+            alert("Please install phantom extension");
+        } else {
+            phantom.connect()
+                .then(() => {
+                    setPhantomProvider(phantom);
+                    setPhantomWalletConnected(true);
+                })
+                .catch((error) => console.error(error));
+        }
     }
 
     const googleLogin = useGoogleLogin({
