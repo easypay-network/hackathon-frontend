@@ -1,0 +1,38 @@
+.button {
+    padding: 0;
+    width: 215px;
+    height: 43px;
+    /*color: #FFFFFF!important;*/
+    text-transform: none;
+    /*background: #181818;*/
+    /*border: 3px solid #FFFFFF;*/
+    letter-spacing: 0.085em;
+    background-image: url("../../../public/connectBtnBackgroundWhite.svg")!important;
+    background-repeat: no-repeat;
+    background-color: transparent!important;
+    box-shadow: none!important;
+    transition: transform 0.25s;
+}
+
+.connectButton {
+    /*background: linear-gradient(91.2deg, #6D56E4 1.47%, #A45DCC 66.44%, #D355D2 97.27%), #D9D9D9;*/
+    /*background: rgba(255, 255, 255, 1);*/
+    /*border: 1px solid rgba(136, 136, 136, 1);*/
+    color: rgba(12, 0, 0, 1);
+}
+
+.connectButton:hover {
+    /*background: rgba(136, 136, 136, 1);*/
+    background-color: transparent;
+    box-shadow: none;
+    transform: scale(1.05);
+}
+
+.connectedButton {
+    color:#ffffff!important;
+    -webkit-filter: brightness(60%)!important;
+    /*background: rgba(24, 24, 24, 1);*/
+    /*border: 1px solid rgba(95, 237, 118, 0.32);*/
+    /*color: rgba(136, 136, 136, 1)!important;*/
+    background-image: url("../../../public/connectBtnBackgroundGray.svg")!important;
+}

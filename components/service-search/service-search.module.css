@@ -36,11 +36,12 @@
 
 .ul::-webkit-scrollbar {
     width: 6px;
-    background-color: #888888;
+    background-color: #ffffff;
+
 }
 
 .ul::-webkit-scrollbar-thumb {
-    background-color: #3F3F3F;
+    background-color: darkgrey;
 }
 
 .searchItems {
@@ -54,7 +55,7 @@
     padding: 10px;
     display: flex;
     min-height: 40px;
-    width: 350px;
+    width: 344px;
     justify-content: space-between;
     word-wrap: break-word;
     align-items: center;

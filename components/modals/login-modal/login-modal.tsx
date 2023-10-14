@@ -11,6 +11,10 @@ import {CommonButton} from "../../buttons";
 import {CommonModal} from "../common-modal";
 import {CustomDivider} from "../../items";
 import getPhantomFromWindow from "./getPhantomFromWindow";
+import {ConnectButton} from "../../buttons/connect-button";
+import phantomIcon from "../../../public/phantomIcon.svg"
+import keplrIcon from "../../../public/keplrIcon.svg"
+import googleIcon from "../../../public/googleIcon.svg"
 
 interface Props {
     open: boolean;
@@ -73,42 +77,28 @@ export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
         >
             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <Box textAlign="center">
-                    <Typography className={classNames('bold16', phantomWalletConnected && styles.connectedLabel)}
+                    <Typography className={classNames('bold16', phantomWalletConnected && keplrWalletConnected && styles.connectedLabel)}
                                 paddingBottom='16px'
                     >
-                        Connect your Phantom Wallet
+                        Connect Wallet
                     </Typography>
-                    <CommonButton width="200px" onClick={onPhantomConnect} disabled={phantomWalletConnected}>
-                        <Typography className="medium14">
-                            Phantom
-                        </Typography>
-                    </CommonButton>
+                    <ConnectButton connected={phantomWalletConnected} logoUrl={phantomIcon.src} onClick={onPhantomConnect} buttonName={'Phantom'} />
                 </Box>
-                <CustomDivider/>
                 <Box textAlign="center">
                     <Typography className={classNames('bold16', keplrWalletConnected && styles.connectedLabel)}
                                 paddingBottom='16px'
                     >
-                        Connect your Keplr Wallet
                     </Typography>
-                    <CommonButton width="200px" onClick={onKeplrConnect} disabled={keplrWalletConnected}>
-                        <Typography className="medium14">
-                            Keplr
-                        </Typography>
-                    </CommonButton>
+                    <ConnectButton connected={keplrWalletConnected} logoUrl={keplrIcon.src} onClick={onKeplrConnect} buttonName={'Keplr'} />
                 </Box>
                 <CustomDivider/>
                 <Box textAlign="center">
                     <Typography className={classNames('bold16', emailVerified && styles.connectedLabel)}
                                 paddingBottom='16px'
                     >
-                        Connect your Email
+                        Connect Email
                     </Typography>
-                    <CommonButton width="200px"  onClick={googleLogin} disabled={emailVerified}>
-                        <Typography className="medium14">
-                            Gmail
-                        </Typography>
-                    </CommonButton>
+                    <ConnectButton connected={emailVerified} logoUrl={googleIcon.src} onClick={googleLogin} buttonName={'Gmail'} />
                 </Box>
             </Box>
         </CommonModal>
