@@ -35,11 +35,19 @@ const RoutingTable:FunctionComponent<PathResultsProps> = ({pathResults}) => {
                             </span>
                         </td>
                         <td className={styles.td}>
-                            <p>{path.edge.type === 'ibcTransfer' ? 'IBC Transfer' : path.edge.type}</p>
-                            {path.edge.type === 'ibcTransfer' ? <>
-                                <p>Input channel: {path.edge.properties.inputChannel}</p>
-                                <p>Output channel: {path.edge.properties.outputChannel}</p>
-                            </> : null}
+                            {
+                                path.edge.type === 'ibcTransfer' &&
+                                path.edge.properties.inputChannel === 'NULL' &&
+                                path.edge.properties.outputChannel === 'NULL' ? <p>Bridge Transfer</p> :
+                                    <>
+                                        <p>{path.edge.type === 'ibcTransfer' ? 'IBC Transfer' : path.edge.type}</p>
+                                        {path.edge.type === 'ibcTransfer' &&
+                                        <>
+                                            <p>Input channel: {path.edge.properties.inputChannel}</p>
+                                            <p>Output channel: {path.edge.properties.outputChannel}</p>
+                                        </>}
+                                    </>
+                            }
                         </td>
                         <td className={styles.assetCell}>
                             <span>
