@@ -13,7 +13,7 @@ import Long from "long";
 import {keplrNetworks, phantomNetworks, rpcAddresses} from "../../constants";
 import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
-import {Connection, PublicKey, SystemProgram, Transaction} from "@solana/web3.js";
+import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstruction} from "@solana/web3.js";
 import pollSignatureStatus from "../../utils/pollSignatureStatus";
 
 interface Props {
@@ -80,6 +80,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
         const denom = invoiceItem?.requestedAsset?.denom || "";
         const receiverAddress = invoiceItem?.receiver?.address || "";
         const requestedAmount = pathFinderResponse?.destinationTokenAmount || 0;
+        const txMemo = pathFinderResponse?.txMemo || '';
 
         const chainId = invoiceItem?.requestedAsset?.locatedZone?.networkId || "";
 
@@ -107,6 +108,14 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
                     fromPubkey: senderAddress,
                     toPubkey: new PublicKey(receiverAddress),
                     lamports: BigInt(DecUtils.getTenExponentN(9).mul(new Dec(requestedAmount)).truncate().toString()),
+                })
+            );
+
+            transaction.add(
+                new TransactionInstruction({
+                    keys: [{ pubkey: senderAddress, isSigner: true, isWritable: true }],
+                    data: Buffer.from(txMemo, "utf-8"),
+                    programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
                 })
             );
 

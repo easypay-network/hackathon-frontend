@@ -9,7 +9,14 @@ import SelectToken from "../../select-token/select-token";
 import {Asset, PathFinderResponse} from "../../types";
 import RoutingTable from "../../routing-table/routing-table";
 import {CommonButton} from "../../buttons";
-import {apiUrl, keplrNetworks, phantomNetworks, rpcAddresses} from "../../constants";
+import {
+    apiUrl,
+    cosmosExplorerUrl,
+    keplrNetworks,
+    phantomNetworks,
+    rpcAddresses,
+    solanaExplorerUrl
+} from "../../constants";
 import {useKeplrContext, usePhantomContext} from "../../../contexts";
 import {AccountData, Coin, StdFee} from "@keplr-wallet/types";
 import {Dec, DecUtils} from "@keplr-wallet/unit";
@@ -18,8 +25,9 @@ import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {PaymentStatusModal} from "../../modals";
 import pollSignatureStatus from "../../utils/pollSignatureStatus";
-import {Connection, PublicKey, SystemProgram, Transaction} from "@solana/web3.js";
+import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstruction} from "@solana/web3.js";
 import {LoadingItem} from "../../items";
+import Link from "next/link";
 
 const SwapPage: NextPage = () => {
     const {keplr} = useKeplrContext();
@@ -37,6 +45,7 @@ const SwapPage: NextPage = () => {
     const [openPendingPaymentModal, setOpenPendingPaymentModal] = useState(false);
 
     const [transactionNumber, setTransactionNumber] = useState('');
+    const [explorerLink, setExplorerLink] = useState("");
 
     const [pathFinderResponse, setPathFinderResponse] = useState<PathFinderResponse>({} as PathFinderResponse);
 
@@ -134,6 +143,7 @@ const SwapPage: NextPage = () => {
         const chainId = token1?.locatedZone?.networkId || "";
         const receiverAddress = address || "";
         const requestedAmount = pathFinderResponse?.destinationTokenAmount || 0;
+        const txMemo = pathFinderResponse?.txMemo || '';
 
         const transactionType = pathFinderResponse?.transactionType;
 
@@ -162,12 +172,21 @@ const SwapPage: NextPage = () => {
                 })
             );
 
+            transaction.add(
+                new TransactionInstruction({
+                    keys: [{ pubkey: senderAddress, isSigner: true, isWritable: true }],
+                    data: Buffer.from(txMemo, "utf-8"),
+                    programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
+                })
+            );
+
             setOpenPendingPaymentModal(true);
 
             phantomProvider.signAndSendTransaction(
                 transaction,
                 {skipPreflight: false}
             ).then(({signature}) => {
+                setExplorerLink(solanaExplorerUrl);
                 setTransactionNumber(signature);
                 return pollSignatureStatus(signature, connection);
             }).then(() => {
@@ -218,6 +237,7 @@ const SwapPage: NextPage = () => {
             txMemo
         ).then((deliverTxResponse) => {
             if (deliverTxResponse.code === 0) {
+                setExplorerLink(cosmosExplorerUrl);
                 setTransactionNumber(deliverTxResponse.transactionHash);
                 setOpenPendingPaymentModal(false);
                 setOpenSuccessPaymentModal(true);
@@ -296,7 +316,9 @@ const SwapPage: NextPage = () => {
                     <Typography className='bold14'>
                         Transaction:
                         <br/>
-                        {transactionNumber}
+                        <Link href={`${explorerLink}/${transactionNumber}?cluster=testnet`}>
+                            {transactionNumber}
+                        </Link>
                     </Typography>
                 </Box>
             </PaymentStatusModal>
