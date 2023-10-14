@@ -5,6 +5,7 @@ import styles from "./report-item.module.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {CommonModal} from "../../../modals/common-modal";
 import {CommonButton} from "../../../buttons";
+import {CommonButtonCustom} from "../../../buttons/common-button-custom";
 
 
 const ReportItem: NextPage = () => {
@@ -50,7 +51,7 @@ const ReportItem: NextPage = () => {
                         <input type={'datetime-local'} className={styles.dateInput} min="2020-12-31T00:00" max="2030-12-31T00:00" required={true} onChange={handleDate2Change}/>
                     </div>
                 </div>
-                <button className={areBothDatesFilled ? styles.activeButton : styles.inactiveButton} onClick={() => modalClick()}>Create report</button>
+                <CommonButtonCustom className={styles.btn} disabled={!areBothDatesFilled} onClick={() => modalClick()}>Create report</CommonButtonCustom>
                 <ArrowBackIcon sx={{width:'40px', height:'40px'}} onClick={() => reportBackClick()} className={styles.backButton}/>
                 <CommonModal modalContainerStyle={styles.modal} open={open} setOpen={modalClick}>
                     <h4>{capitalizeString(report)}</h4>
@@ -59,7 +60,7 @@ const ReportItem: NextPage = () => {
                         <b>this is just a prototype illustrating the application&apos;s logic and functionality</b>
                         <b>. Just imagine that you have received the report and saved it for your reference.</b>
                     </div>
-                    <CommonButton onClick={modalClick} className={styles.btn}>OK</CommonButton>
+                    <CommonButtonCustom onClick={modalClick} className={styles.btnModal}>OK</CommonButtonCustom>
                 </CommonModal>
             </div>
             </>

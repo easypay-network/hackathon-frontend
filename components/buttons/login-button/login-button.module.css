@@ -1,0 +1,17 @@
+.loginButton {
+    width: 120px;
+    height: 43px;
+    background-image: url("../../../public/buttons-background/120-button.svg")!important;
+    background-repeat: no-repeat;
+}
+
+.loginButton:hover {
+    transform: scale(1.05);
+}
+
+.loginButtonConnected {
+    background-image: url("../../../public/buttons-background/180-button.svg")!important;
+    background-repeat: no-repeat;
+    width: 183px;
+    height: 43px;
+}

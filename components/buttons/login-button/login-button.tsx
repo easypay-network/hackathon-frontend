@@ -1,8 +1,10 @@
 import {FunctionComponent, useState} from "react";
+import styles from "./login-button.module.css"
 import {Typography} from "@mui/material";
 import {useKeplrContext, usePhantomContext, useUserInfoContext} from "../../../contexts";
 import {LoginModal} from "../../modals";
 import {CommonButton} from "../common-button";
+import {CommonButtonCustom} from "../common-button-custom";
 
 export const LoginButton: FunctionComponent = () => {
     const {keplrWalletConnected} = useKeplrContext();
@@ -13,7 +15,9 @@ export const LoginButton: FunctionComponent = () => {
 
     return (
         <>
-            <CommonButton onClick={()=>setOpen(true)} disabled={keplrWalletConnected && phantomWalletConnected && emailVerified}>
+            <CommonButtonCustom className={`${keplrWalletConnected || phantomWalletConnected || emailVerified ? styles.loginButtonConnected : styles.loginButton}`}
+                          onClick={()=>setOpen(true)}
+                          disabled={keplrWalletConnected && phantomWalletConnected && emailVerified}>
                 {!keplrWalletConnected && !phantomWalletConnected && !emailVerified &&
                     <Typography className='bold16'>
                         Log In
@@ -34,7 +38,7 @@ export const LoginButton: FunctionComponent = () => {
                         Connected
                     </Typography>
                 }
-            </CommonButton>
+            </CommonButtonCustom>
 
             <LoginModal
                 open={open}

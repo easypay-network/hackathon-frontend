@@ -28,6 +28,7 @@ import pollSignatureStatus from "../../utils/pollSignatureStatus";
 import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstruction} from "@solana/web3.js";
 import {LoadingItem} from "../../items";
 import Link from "next/link";
+import {CommonButtonCustom} from "../../buttons/common-button-custom";
 
 const SwapPage: NextPage = () => {
     const {keplr} = useKeplrContext();
@@ -292,14 +293,14 @@ const SwapPage: NextPage = () => {
                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setAddress(event.target.value)}/>
                                 </div>
                             </div>
-                            <button onClick={calculatePaymentPath} className={styles.tempBtn}>Get routes</button>
+                            <CommonButtonCustom onClick={calculatePaymentPath} className={styles.btn}>Get routes</CommonButtonCustom>
                             <hr color={"#888"}/>
                             <h3>Routing</h3>
                             {routingTableIsLoading ? <div style={{position: 'relative', height: '200px'}}><LoadingItem/></div> : <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>}
                             <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                <CommonButton onClick={makeSwap} disabled={!pathFinderResponse?.pathResults}>
+                                <CommonButtonCustom className={styles.btn2} onClick={makeSwap} disabled={!pathFinderResponse?.pathResults}>
                                     <Typography className="bold16">Swap</Typography>
-                                </CommonButton>
+                                </CommonButtonCustom>
                             </Box>
                         </>
                     }

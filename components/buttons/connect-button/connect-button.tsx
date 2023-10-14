@@ -22,6 +22,9 @@ export const ConnectButton: FunctionComponent<Props> = ({connected, logoUrl, onC
                     onClick={()=>onClick()}
                     disabled={connected}
                     centerRipple={true}
+                    sx={{'&& .MuiTouchRipple-rippleVisible': {
+                            scale: '89%',
+                        }}}
             >
                 <Image src={logoUrl} width='26px' height='26px'/>
                 <Box paddingLeft='24px'>

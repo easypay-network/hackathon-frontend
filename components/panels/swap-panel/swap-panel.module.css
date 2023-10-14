@@ -103,30 +103,6 @@
     border: 1px solid black;
 }
 
-.tempBtn {
-    width: 100px;
-    height: 30px;
-    display: block;
-    margin: 20px auto 0 auto;
-    border: none;
-    border-radius: 6px;
-    background: #FFF;
-    color: #0C0000;;
-    font-family: Inter, serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-}
-
-.tempBtn:hover {
-    cursor: pointer;
-}
-
-.tempBtn:active {
-    border: 1px solid black;
-}
-
 .successModalContainer {
     position: absolute;
     width: 900px;
@@ -145,4 +121,25 @@
     left: calc(50% - 200px);
     border-radius: 6px;
     overflow: hidden;
+}
+
+.btn {
+    display: block;
+    margin: 20px auto;
+    background-image: url("../../../public/buttons-background/120-button.svg");
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 43px;
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.btn2 {
+    background-image: url("../../../public/buttons-background/120-button.svg");
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 43px;
 }

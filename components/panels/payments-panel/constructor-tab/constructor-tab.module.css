@@ -61,3 +61,10 @@
     box-shadow: 0 0 0 4px rgba(31, 94, 255, 0.16);
     color: #0C0000;
 }
+
+.btn {
+    background-image: url("../../../../public/buttons-background/300-button.svg");
+    background-repeat: no-repeat;
+    width: 303px;
+    height: 43px;
+}

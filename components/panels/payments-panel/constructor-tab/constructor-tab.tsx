@@ -9,6 +9,7 @@ import {AssetSelector, CustomDivider, CustomGridRow, InformationContainer} from 
 import axios from "axios";
 import {apiUrl} from "../../../constants";
 import {useRouter} from "next/router";
+import {CommonButtonCustom} from "../../../buttons/common-button-custom";
 
 const StyledFormControlLabel= styled(FormControlLabel)(() => ({
     ['.MuiFormControlLabel-label']: {
@@ -293,9 +294,9 @@ export const ConstructorTab: FunctionComponent = () => {
                     />
                 </CustomGridRow>
                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                    <CommonButton width='300px' onClick={handleSubmitInvoice}>
+                    <CommonButtonCustom className={styles.btn} onClick={handleSubmitInvoice}>
                         <Typography className="bold16">Proceed to payment</Typography>
-                    </CommonButton>
+                    </CommonButtonCustom>
                 </Box>
             </Box>
         </InformationContainer>

@@ -26,6 +26,7 @@ import {InvoiceStatusItem} from "./invoice-status-item";
 import axios from "axios";
 import {apiUrl} from "../../../constants";
 import {LoadingItem} from "../../../items";
+import {CommonButtonCustom} from "../../../buttons/common-button-custom";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -85,14 +86,14 @@ export const InvoiceListTab: FunctionComponent = () => {
                 marginBottom: '30px',
                 justifyContent: 'flex-end'
             }}>
-                <CommonButton onClick={() => router.push('/payments/constructor')}>
+                <CommonButtonCustom className={styles.btn} onClick={() => router.push('/payments/constructor')}>
                     <>
                         <Typography className='bold16' textTransform='none'>
                             Create new
                         </Typography>
                         <AddIcon/>
                     </>
-                </CommonButton>
+                </CommonButtonCustom>
             </Box>
                 <TableContainer component={Paper}>
                     {isLoading ? <LoadingItem /> :

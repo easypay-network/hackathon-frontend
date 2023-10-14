@@ -50,3 +50,10 @@
     max-width:300px;
     width:100%;
 }
+
+.btn {
+    background-image: url("../../../../public/buttons-background/200-button.svg");
+    background-repeat: no-repeat;
+    width: 203px;
+    height: 43px;
+}

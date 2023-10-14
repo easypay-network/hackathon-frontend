@@ -1,3 +1,7 @@
+.reportMainContainer {
+    position: relative;
+}
+
 .reportMainContainer h2{
     margin: 54px auto;
     color: #FFF;
@@ -99,8 +103,8 @@
 }
 
 .backButton {
-    position: relative;
-    top: -398px;
+    position: absolute;
+    top: 0;
     left: 0;
 }
 
@@ -150,4 +154,30 @@
 .modal button {
     display: block;
     margin: 0 auto;
+}
+
+.btn {
+    display: block;
+    margin: 85px auto 0 auto;
+    background-image: url("../../../../public/buttons-background/250-button.svg");
+    background-repeat: no-repeat;
+    width: 251px;
+    height: 43px;
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.btnModal {
+    background-image: url("../../../../public/buttons-background/120-button.svg");
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 43px;
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
 }

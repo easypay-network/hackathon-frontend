@@ -15,6 +15,7 @@ import Utils from "../../../utils/utils";
 import {CommonButton} from "../../../buttons";
 import styles from "./product-item-panel.module.css";
 import {format} from "date-fns";
+import {CommonButtonCustom} from "../../../buttons/common-button-custom";
 
 export const ProductItemPanel: FunctionComponent = () => {
     const router = useRouter();
@@ -122,9 +123,9 @@ export const ProductItemPanel: FunctionComponent = () => {
                             }
                         </CustomGridRow>
                         <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                            <CommonButton width='250px' onClick={handleCheckOut}>
+                            <CommonButtonCustom onClick={handleCheckOut} className={styles.btn}>
                                 <Typography className="bold16">Check out</Typography>
-                            </CommonButton>
+                            </CommonButtonCustom>
                         </Box>
                     </Box>
 

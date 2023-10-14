@@ -17,6 +17,7 @@ import axios from "axios";
 import {apiUrl} from "../../../constants";
 import { PaymentConfirmModal } from "../../../modals";
 import RoutingTable from "../../../routing-table/routing-table";
+import {CommonButtonCustom} from "../../../buttons/common-button-custom";
 
 export const InvoiceItemTab: FunctionComponent = () => {
     const router = useRouter();
@@ -188,16 +189,16 @@ export const InvoiceItemTab: FunctionComponent = () => {
                                     />
                                 </CustomGridRow>
                                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                    <CommonButton width='200px' onClick={calculatePaymentPath} disabled={!invoiceItem?.payedAsset}>
+                                    <CommonButtonCustom className={styles.btn} onClick={calculatePaymentPath} disabled={!invoiceItem?.payedAsset}>
                                         <Typography className="bold16">Get routes</Typography>
-                                    </CommonButton>
+                                    </CommonButtonCustom>
                                 </Box>
                                 <CustomDivider/>
                                 {routingTableIsLoading ? <div style={{position: 'relative', height: '200px'}}><LoadingItem/></div> : <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>}
                                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                                    <CommonButton width='200px' onClick={()=>setOpen(true)} disabled={!invoiceItem?.payedAmount}>
+                                    <CommonButtonCustom className={styles.btn} onClick={()=>setOpen(true)} disabled={!invoiceItem?.payedAmount}>
                                         <Typography className="bold16">Initiate payment</Typography>
-                                    </CommonButton>
+                                    </CommonButtonCustom>
                                 </Box>
                             </Box>
                         </>

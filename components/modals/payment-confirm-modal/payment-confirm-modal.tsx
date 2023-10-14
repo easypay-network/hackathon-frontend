@@ -15,6 +15,7 @@ import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstruction} from "@solana/web3.js";
 import pollSignatureStatus from "../../utils/pollSignatureStatus";
+import {CommonButtonCustom} from "../../buttons/common-button-custom";
 
 interface Props {
     open: boolean;
@@ -243,9 +244,9 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
                                          tokenAmount={invoiceItem?.requestedAmount}/>
                     </CustomGridRow>
                     <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
-                        <CommonButton onClick={approvePayment}>
+                        <CommonButtonCustom className={styles.btn} onClick={approvePayment}>
                             <Typography className="bold16">Approve</Typography>
-                        </CommonButton>
+                        </CommonButtonCustom>
                     </Box>
                 </Box>
             </CommonModal>

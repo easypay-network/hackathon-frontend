@@ -1,6 +1,13 @@
 .productImage {
     min-height: 250px;
-    max-width:300px;
-    width:100%;
+    max-width: 300px;
+    width: 100%;
     border-radius: 6px;
+}
+
+.btn {
+    background-image: url("../../../../public/buttons-background/250-button.svg");
+    background-repeat: no-repeat;
+    width: 250px;
+    height: 43px;
 }

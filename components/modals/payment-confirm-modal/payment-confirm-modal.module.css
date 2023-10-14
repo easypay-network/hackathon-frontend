@@ -27,3 +27,10 @@
     border-radius: 6px;
     overflow: hidden;
 }
+
+.btn {
+    background-image: url("../../../public/buttons-background/160-button.svg");
+    background-repeat: no-repeat;
+    width: 163px;
+    height: 43px;
+}
