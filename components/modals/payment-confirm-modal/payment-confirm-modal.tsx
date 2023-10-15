@@ -3,19 +3,19 @@ import {Box, Typography} from "@mui/material";
 import styles from "./payment-confirm-modal.module.css";
 import {CustomDivider, CustomGridRow, TokenAmountItem} from "../../items";
 import {Invoice, PathFinderResponse} from "../../types";
-import {CommonButton} from "../../buttons";
+import {CommonButtonCustom} from "../../buttons";
 import {CommonModal} from "../common-modal";
 import {useKeplrContext, usePhantomContext} from "../../../contexts";
 import {PaymentStatusModal} from "..";
 import {AccountData, Coin, StdFee} from "@keplr-wallet/types";
 import {Dec, DecUtils} from "@keplr-wallet/unit";
 import Long from "long";
-import {keplrNetworks, phantomNetworks, rpcAddresses} from "../../constants";
+import {cosmosExplorerUrl, keplrNetworks, phantomNetworks, rpcAddresses, solanaExplorerUrl} from "../../constants";
 import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstruction} from "@solana/web3.js";
 import pollSignatureStatus from "../../utils/pollSignatureStatus";
-import {CommonButtonCustom} from "../../buttons/common-button-custom";
+import Link from "next/link";
 
 interface Props {
     open: boolean;
@@ -33,6 +33,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
     const [openPendingPaymentModal, setOpenPendingPaymentModal] = useState(false);
 
     const [transactionNumber, setTransactionNumber] = useState('');
+    const [explorerLink, setExplorerLink] = useState("");
 
     const constructTxMessage = (senderAddress: string) => {
         const denom = invoiceItem?.requestedAsset?.denom || "";
@@ -126,6 +127,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
                 transaction,
                 {skipPreflight: false}
             ).then(({signature}) => {
+                setExplorerLink(solanaExplorerUrl);
                 setTransactionNumber(signature);
                 return pollSignatureStatus(signature, connection);
             }).then(() => {
@@ -178,6 +180,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
             txMemo
         ).then((deliverTxResponse) => {
             if (deliverTxResponse.code === 0) {
+                setExplorerLink(cosmosExplorerUrl);
                 setTransactionNumber(deliverTxResponse.transactionHash);
                 setOpenPendingPaymentModal(false);
                 setOpenSuccessPaymentModal(true);
@@ -261,7 +264,9 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
                     <Typography className='bold14'>
                         Transaction:
                         <br/>
-                        {transactionNumber}
+                        <Link href={`${explorerLink}/${transactionNumber}?cluster=testnet`}>
+                            {transactionNumber}
+                        </Link>
                     </Typography>
                 </Box>
             </PaymentStatusModal>
