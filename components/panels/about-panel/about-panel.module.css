@@ -3,6 +3,12 @@
     grid-gap: 60px;
     margin: 0 auto;
     max-width: 1018px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.aboutContainer img {
+    margin-top: 76px;
 }
 
 .tittle {
@@ -11,7 +17,7 @@
     font-size: 40px;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 48px */
+    line-height: 120%;
 }
 .teamTitle {
     max-width: 1018px;
@@ -24,7 +30,7 @@
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
-    line-height: 140%; /* 28px */
+    line-height: 140%;
     max-width: 520px;
 }
 
@@ -77,7 +83,7 @@
     font-size: 34px;
     font-style: normal;
     font-weight: 700;
-    line-height: 100%; /* 34px */
+    line-height: 100%;
 }
 
 .cardText p {
@@ -87,7 +93,7 @@
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
-    line-height: 120%; /* 21.6px */
+    line-height: 120%;
 
 }
 

@@ -7,6 +7,7 @@ import ih from "../../../public/about-team-images/ihar.png"
 import alex from "../../../public/about-team-images/alex.png"
 import linkedIn from "../../../public/lnkdinLogo.svg"
 import twitter from "../../../public/twitterLogo.svg"
+import logo from "../../../public/main-page/main-page-text-logo.svg"
 
 const AboutPanel: NextPage = () => {
     return (
@@ -14,8 +15,12 @@ const AboutPanel: NextPage = () => {
             <div className={styles.aboutContainer}>
                 <div>
                     <h1 className={styles.title}>About</h1>
-                    <p className={styles.text}>Our team consists of developers working in the Web3 space. We have experience working with various blockchains and have won several hackathons with our projects.</p>
+                    <p className={styles.text}>Our team consists of developers working in the Web3 domain. With
+                        experience across various blockchains, we have successfully delivered Web3 solutions, seamlessly
+                        integrating Web2 UX into the Web3 world.
+                    </p>
                 </div>
+                <img src={logo.src} alt=''/>
             </div>
             <h1 className={styles.teamTitle}>Team</h1>
             <div className={styles.teamContainer}>
