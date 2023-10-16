@@ -12,6 +12,10 @@ import donation from "../../../public/main-page/donation.png";
 import payments from "../../../public/main-page/payments.png";
 import swap from "../../../public/main-page/swap.png";
 import about from "../../../public/main-page/about.png";
+import integration1 from "../../../public/main-page/integration1.svg"
+import integration2 from "../../../public/main-page/integration2.svg"
+import integration3 from "../../../public/main-page/integration3.svg"
+import integration4 from "../../../public/main-page/integration4.svg"
 import {CommonButtonCustom} from "../../buttons";
 import {useState} from "react";
 import {LoginModal} from "../../modals";
@@ -72,7 +76,10 @@ const MainPagePanel: NextPage = () => {
 
             <p id='solutions' className={styles.thesis}>Existing solutions</p>
             <div className={styles.solutionsGrid}>
-                <div className={styles.solution}/>
+                <div className={styles.solution}>
+                    <span className={styles.whiteDescription}>DEX aggregators & routers</span>
+                    <span className={styles.grayDescription}>Address intermediate,&nbsp; not final, user goals</span>
+                </div>
                 <div className={styles.solution}>
                     <span className={styles.whiteDescription}>Payment system as an AppChain</span>
                     <span className={styles.grayDescription}>AppChain as a wallet limits token storage choice and degrades UX</span>
@@ -128,7 +135,7 @@ const MainPagePanel: NextPage = () => {
                     </span>
                     <CommonButtonCustom className={styles.btn} onClick={() => handleClick('payments/invoices')}>Try Payments</CommonButtonCustom>
                 </div>
-                <img style={{position: "absolute", left: "0", top: "120px"}} alt='' src={payments.src}/>
+                <img style={{position: "absolute", left: "104px", top: "80px"}} alt='' src={payments.src}/>
             </div>
 
             <div style={{height: "650px"}} className={styles.ideasContainer}>
@@ -143,10 +150,28 @@ const MainPagePanel: NextPage = () => {
                     <CommonButtonCustom className={styles.btn} onClick={() => handleClick('swap')}>Let&#39;s Swap
                         something</CommonButtonCustom>
                 </div>
-                <img style={{position: "absolute", right: "0", top: "0"}} alt='' src={swap.src}/>
+                <img style={{position: "absolute", right: "60px", top: "0"}} alt='' src={swap.src}/>
             </div>
 
-            <div style={{justifyContent: "flex-end", height: "600px"}} className={styles.ideasContainer}>
+            <div style={{justifyContent: "space-between", height: "600px"}} className={styles.ideasContainer}>
+                <div className={styles.integrations}>
+                    <div>
+                        <img src={integration1.src} alt='' />
+                        <span>With marketplaces</span>
+                    </div>
+                    <div>
+                        <img src={integration2.src} alt='' />
+                        <span>For dApps</span>
+                    </div>
+                    <div>
+                        <img src={integration3.src} alt='' />
+                        <span>Into payment interfaces</span>
+                    </div>
+                    <div>
+                        <img src={integration4.src} alt='' />
+                        <span>Invoices through API</span>
+                    </div>
+                </div>
                 <div className={styles.ideaDescriptionContainer}>
                     <span className={styles.ideaName}>Integrations</span>
                     <span className={styles.ideaDescription}>
@@ -157,7 +182,6 @@ const MainPagePanel: NextPage = () => {
                     </span>
                     <CommonButtonCustom className={styles.btn} onClick={() => handleClick('integrations')}>Integrations</CommonButtonCustom>
                 </div>
-                <img style={{position: "absolute", left: "0", top: "-30px"}} alt='' src={payments.src}/>
             </div>
 
             <div style={{height: "450px"}} className={styles.ideasContainer}>
