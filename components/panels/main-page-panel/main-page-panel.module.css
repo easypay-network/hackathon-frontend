@@ -228,3 +228,12 @@
     line-height: 40px;
     margin-left: 20px;
 }
+
+.ideasContainer img {
+    transition: transform .3s linear;
+}
+
+.ideasContainer img:hover {
+    transform: scale(1.2);
+    z-index: 2;
+}
