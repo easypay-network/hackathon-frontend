@@ -37,7 +37,7 @@ export const Header: FunctionComponent<Props> = ({index}) => {
                             </Typography>
                             <Typography textAlign='center'
                                         className={classNames(styles.panelLink, index===1 && styles.selected, 'bold16')}>
-                                <Link href="/payments/dashboards">
+                                <Link href="/payments/invoices">
                                     Payments
                                 </Link>
                             </Typography>
