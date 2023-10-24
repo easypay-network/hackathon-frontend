@@ -6,7 +6,7 @@ export const rpcAddresses: Map<string, string> =  new Map([
     ["comdex-test3", "https://test3-rpc.comdex.one"],
     ["solana_testnet", "https://api.testnet.solana.com"],
     ["ethereum-sepolia-testnet", "https://sepolia.drpc.org"],
-    ["theta-testnet-001", "https://rpc.seed-01.theta-testnet.polypore.xyz:443"] //cosmos-hub-testnet
+    ["theta-testnet-001", "https://rpc.sentry-01.theta-testnet.polypore.xyz"] //cosmos-hub-testnet
 ]);
 
 export const keplrNetworks = ["osmo-test-5", "juno-1", "axelar-testnet-lisbon-3", "pion-1", "comdex-test3", "theta-testnet-001"];
