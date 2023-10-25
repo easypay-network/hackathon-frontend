@@ -166,9 +166,12 @@ export const InvoiceListTab: FunctionComponent = () => {
                                         </StyledTableCell>
                                         <StyledTableCell className={styles.borderLeftCell}>
                                             <Typography className='bold12'>{invoiceItem.requestedAmount}</Typography>
-                                            <Typography className='bold12' textTransform='uppercase'>
-                                                {invoiceItem.requestedAsset?.ticker || invoiceItem.requestedAsset?.originalTicker}
-                                            </Typography>
+                                            <div className={styles.assetCellContainer}>
+                                                <img  src={invoiceItem.requestedAsset?.logoUrl}/>
+                                                <Typography className='bold12' textTransform='uppercase'>
+                                                    {invoiceItem.requestedAsset?.ticker || invoiceItem.requestedAsset?.originalTicker}
+                                                </Typography>
+                                            </div>
                                         </StyledTableCell>
                                         <StyledTableCell>
                                             {invoiceItem.payedAmount &&

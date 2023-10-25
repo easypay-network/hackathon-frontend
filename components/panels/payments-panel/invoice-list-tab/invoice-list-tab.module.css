@@ -25,3 +25,19 @@
     width: 163px;
     height: 43px;
 }
+
+.assetCellContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    position: relative;
+    left: -16px;
+    margin-top: 2px;
+}
+
+.assetCellContainer img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+}
