@@ -1,5 +1,27 @@
 import {PublicKey, Transaction, VersionedTransaction, SendOptions} from '@solana/web3.js';
 
+export interface Category {
+    product: {
+        title: string;
+        identity: number;
+        imageUrl: string;
+    };
+    category: {
+        name: string;
+    };
+}
+
+export interface Invoices {
+    title: string,
+    identity: number,
+    imageUrl: string;
+}
+
+export interface SearchModalProps {
+    searchToggle: boolean;
+    setSearchToggle: (newSearchToggle: boolean) => void;
+}
+
 export interface Invoice {
     identity: number;
     title: string;

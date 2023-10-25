@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React, {FunctionComponent, useState} from "react";
 import {Box, Container, Grid} from "@mui/material";
 import styles from "./header.module.css";
 import classNames from "classnames";
@@ -7,13 +7,17 @@ import Typography from "@mui/material/Typography";
 import {LoginButton} from "../../buttons";
 import headerLogo from "../../../public/headerLogo.png";
 import Image from "next/image";
-import {ServiceSearch} from "../../service-search";
+import Search from "../../search/Search"
+import SearchModal from "../../modals/search-modal/SearchModal";
+
 
 interface Props {
     index: number;
 }
 
 export const Header: FunctionComponent<Props> = ({index}) => {
+    const [searchToggle, setSearchToggle] = useState(false)
+
     return (
         <Box className={styles.background}>
             <Container sx={{
@@ -63,7 +67,8 @@ export const Header: FunctionComponent<Props> = ({index}) => {
                     </Grid>
                     <Grid item xs={12} md={5}
                           sx={{display: 'flex', justifyContent: 'flex-end', height: 'inherit', alignItems: 'center'}}>
-                        <ServiceSearch/>
+                        <Search searchToggle={searchToggle} setSearchToggle={setSearchToggle}/>
+                        {searchToggle && <SearchModal searchToggle={searchToggle} setSearchToggle={setSearchToggle}/>}
                     </Grid>
                     <Grid item xs={12} md={3}
                           sx={{display: 'flex', justifyContent: 'flex-end', height: 'inherit', alignItems: 'center'}}>

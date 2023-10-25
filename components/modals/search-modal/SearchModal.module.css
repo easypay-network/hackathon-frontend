@@ -1,0 +1,141 @@
+.overlay {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.7);
+    position: fixed;
+    top:0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.container {
+    position: absolute;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 540px;
+}
+
+.search {
+    padding-left: 176px;
+    border: 1px solid #3F3F3F;
+    border-radius: 6px;
+    width: 540px;
+    height: 40px;
+    background: #191A1B url("../../../public/searchIcon.svg") no-repeat scroll 150px 7px;
+    outline: none;
+    color: #FFF;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.search::placeholder {
+    color: #888;
+}
+
+.loading {
+    margin: 0 auto;
+}
+
+.modalSearchUl {
+    margin: 1px 0 0 0;
+    padding: 0;
+    border-radius: 6px;
+    color: #FFF;
+    font-family: Inter, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modalSearchUl::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modalSearchUl::-webkit-scrollbar-track {
+    background: #F5F5F5;
+    border-radius: 3px;
+}
+
+.modalSearchUl::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    border-radius: 3px;
+    height: 40%;
+}
+
+.modalSearchLi {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    padding: 0 20px;
+    list-style-type: none;
+    border-bottom: 1px solid #505050;
+    border-left: 1px solid #505050;
+    border-right: 1px solid #505050;
+    background: #313233;
+    word-wrap: anywhere;
+}
+
+.modalSearchLi img {
+    border-radius: 50%;
+}
+
+.modalSearchLi:first-child {
+    border-top: 1px solid #505050;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px
+}
+.modalSearchLi:last-child {
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.modalSearchLi:hover {
+    background: #484848;
+    cursor: pointer;
+}
+
+.modalSearchLi span:nth-child(2) {
+    width: 50%;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+.modalSearchLi span:nth-child(3) {
+    width: 21%;
+    color: #888;
+    font-family: Gilroy, serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    text-align: right;
+}
+
+.modalSearchLi span:nth-child(4) {
+    width: 18%;
+    font-size: 12px;
+    text-align: right;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,37 @@
+.search {
+    border: 1px solid #3F3F3F;
+    border-radius: 6px;
+    width: 248px;
+    height: 40px;
+    margin-left: 75px;
+    margin-right: 10px;
+    background: url("../../public/searchIcon.svg") no-repeat scroll 10px 8px;
+    outline: none;
+    text-indent: 40px;
+    color: #FFF;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+}
+
+.search::placeholder {
+    color: #888;
+}
+
+.hidden {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: transparent;
+    width: 248px;
+    height: 40px;
+    margin-left: 75px;
+    margin-right: 71px;
+}
+
+.hidden::placeholder {
+    color: transparent;
+}

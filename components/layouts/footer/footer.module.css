@@ -6,7 +6,7 @@
   min-height: 64px;
   margin-top:auto;
   background: linear-gradient(180deg, rgba(166, 166, 166, 0.00) -29.41%, rgba(166, 166, 166, 0.14) 100%);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(30px);
   position: sticky;
   left: 0;
   bottom: 0;
