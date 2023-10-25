@@ -20,6 +20,7 @@ body {
   /*-moz-background-size: cover;*/
   /*-o-background-size: cover;*/
   /*background-size: cover;*/
+  background: #252628;
   background-size: 100% auto;
   background-image: url("../public/main-background.svg");
   background-repeat: no-repeat;
