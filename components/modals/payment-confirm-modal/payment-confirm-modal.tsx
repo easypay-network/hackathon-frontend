@@ -10,12 +10,11 @@ import {PaymentStatusModal} from "..";
 import {AccountData, Coin, StdFee} from "@keplr-wallet/types";
 import {Dec, DecUtils} from "@keplr-wallet/unit";
 import Long from "long";
-import {cosmosExplorerUrl, keplrNetworks, phantomNetworks, rpcAddresses, solanaExplorerUrl} from "../../constants";
+import {supportedNetworks, KEPLR_WALLET, PHANTOM_WALLET} from "../../constants";
 import {SigningStargateClient} from "@cosmjs/stargate";
 import {EncodeObject} from "@cosmjs/proto-signing";
 import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstruction} from "@solana/web3.js";
 import pollSignatureStatus from "../../utils/pollSignatureStatus";
-import Link from "next/link";
 
 interface Props {
     open: boolean;
@@ -88,12 +87,14 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
 
         const transactionType = pathFinderResponse?.transactionType;
 
+        const chainInfo = supportedNetworks.get(chainId);
+
         if (!phantomProvider) {
             alert("Phantom is not setup");
             return;
         }
 
-        const rpcUrl = rpcAddresses.get(chainId) || "";
+        const rpcUrl = chainInfo?.rpc || "";
 
         if (transactionType === "TRANSFER") {
             const senderAddress = phantomProvider.publicKey;
@@ -127,7 +128,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
                 transaction,
                 {skipPreflight: false}
             ).then(({signature}) => {
-                setExplorerLink(solanaExplorerUrl);
+                setExplorerLink(chainInfo?.explorerUrl.replace("{TRX_HASH}", signature) || "");
                 setTransactionNumber(signature);
                 return pollSignatureStatus(signature, connection);
             }).then(() => {
@@ -148,8 +149,16 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
         const chainId = invoiceItem?.requestedAsset?.locatedZone?.networkId || "";
         const txMemo = pathFinderResponse?.txMemo || '';
 
+        const chainInfo = supportedNetworks.get(chainId);
+
         if (!keplr) {
             alert("Keplr is not setup");
+            return;
+        }
+
+        const offlineSigner = keplr.getOfflineSigner(chainId);
+        if (!offlineSigner) {
+            alert(`Network ${invoiceItem?.requestedAsset?.locatedZone?.name}(${chainId}) is not setup.`);
             return;
         }
 
@@ -158,9 +167,8 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
             gas: "200000",
         };
 
-        const offlineSigner = keplr.getOfflineSigner(chainId);
         const account: AccountData = (await offlineSigner.getAccounts())[0];
-        const rpcUrl = rpcAddresses.get(chainId) || "";
+        const rpcUrl = chainInfo?.rpc || "";
 
         const signingClient = await SigningStargateClient.connectWithSigner(
             rpcUrl,
@@ -180,7 +188,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
             txMemo
         ).then((deliverTxResponse) => {
             if (deliverTxResponse.code === 0) {
-                setExplorerLink(cosmosExplorerUrl);
+                setExplorerLink(chainInfo?.explorerUrl.replace("{TRX_HASH}", deliverTxResponse.transactionHash) || "");
                 setTransactionNumber(deliverTxResponse.transactionHash);
                 setOpenPendingPaymentModal(false);
                 setOpenSuccessPaymentModal(true);
@@ -200,10 +208,14 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
     const approvePayment = async () => {
         const chainId = invoiceItem?.requestedAsset?.locatedZone?.networkId || "";
 
-        if (keplrNetworks.includes(chainId)) {
-            await makeKeplrTransaction();
-        } else if (phantomNetworks.includes(chainId)) {
-            await makePhantomTransaction();
+        if (supportedNetworks.has(chainId)) {
+            const chainInfo = supportedNetworks.get(chainId);
+
+            if (chainInfo?.supportedWallets.includes(KEPLR_WALLET)) {
+                await makeKeplrTransaction();
+            } else if (chainInfo?.supportedWallets.includes(PHANTOM_WALLET)) {
+                await makePhantomTransaction();
+            }
         } else {
             alert(`Network ${invoiceItem?.requestedAsset?.locatedZone?.name} is not supported yet.`);
         }
@@ -264,9 +276,9 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
                     <Typography className='bold14'>
                         Transaction:
                         <br/>
-                        <Link href={`${explorerLink}/${transactionNumber}?cluster=testnet`}>
+                        <a target="_blank" rel="noopener noreferrer" href={explorerLink}>
                             {transactionNumber}
-                        </Link>
+                        </a>
                     </Typography>
                 </Box>
             </PaymentStatusModal>

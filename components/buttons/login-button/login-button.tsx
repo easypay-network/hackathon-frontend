@@ -3,7 +3,6 @@ import styles from "./login-button.module.css"
 import {Typography} from "@mui/material";
 import {useKeplrContext, usePhantomContext, useUserInfoContext} from "../../../contexts";
 import {LoginModal} from "../../modals";
-import {CommonButton} from "../common-button";
 import {CommonButtonCustom} from "../common-button-custom";
 
 export const LoginButton: FunctionComponent = () => {

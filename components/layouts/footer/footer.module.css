@@ -12,3 +12,17 @@
   bottom: 0;
   z-index: 1000;
 }
+
+.footerContainer {
+  display: flex;
+  width: 500px;
+  row-gap: 1rem;
+  padding: 0.5rem;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .footerContainer {
+    flex-direction: column;
+  }
+}

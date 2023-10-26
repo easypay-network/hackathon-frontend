@@ -6,8 +6,6 @@ import {useGoogleLogin} from "@react-oauth/google";
 import axios from "axios";
 import classNames from "classnames";
 import {getKeplrFromWindow} from "./getKeplrFromWindow";
-import {keplrNetworks, rpcAddresses} from "../../constants";
-import {CommonButton} from "../../buttons";
 import {CommonModal} from "../common-modal";
 import {CustomDivider} from "../../items";
 import getPhantomFromWindow from "./getPhantomFromWindow";
@@ -15,6 +13,8 @@ import {ConnectButton} from "../../buttons/connect-button";
 import phantomIcon from "../../../public/phantomIcon.svg"
 import keplrIcon from "../../../public/keplrIcon.svg"
 import googleIcon from "../../../public/googleIcon.svg"
+import {ChainInfoWithoutEndpoints} from "@keplr-wallet/types/src/chain-info";
+import {supportedNetworks} from "../../constants";
 
 interface Props {
     open: boolean;
@@ -31,7 +31,15 @@ export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
             if (!keplr || !keplr.getOfflineSigner) {
                 alert("Please install keplr extension");
             } else {
-                keplr.enable([...rpcAddresses.keys()].filter(network => keplrNetworks.includes(network)))
+                keplr.getChainInfosWithoutEndpoints()
+                    .then((keplrChains: ChainInfoWithoutEndpoints[]) => {
+                        const installedChains = new Set(keplrChains.map(keplrChain => keplrChain.chainId));
+                        const supportedChains = new Set(supportedNetworks.keys());
+
+                        const chainsToEnable = new Set([...installedChains].filter(chainId => supportedChains.has(chainId)));
+
+                        return keplr.enable([...chainsToEnable]);
+                    })
                     .then(() => {
                         setKeplr(keplr);
                         setKeplrWalletConnected(true);
@@ -41,7 +49,7 @@ export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
         });
     }
 
-    const onPhantomConnect = async () => {
+    const onPhantomConnect = () => {
         const phantom = getPhantomFromWindow();
 
         if (!phantom) {

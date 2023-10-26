@@ -8,15 +8,7 @@ import axios from "axios";
 import SelectToken from "../../select-token/select-token";
 import {Asset, PathFinderResponse} from "../../types";
 import RoutingTable from "../../routing-table/routing-table";
-import {CommonButton} from "../../buttons";
-import {
-    apiUrl,
-    cosmosExplorerUrl,
-    keplrNetworks,
-    phantomNetworks,
-    rpcAddresses,
-    solanaExplorerUrl
-} from "../../constants";
+import {apiUrl, KEPLR_WALLET, PHANTOM_WALLET, supportedNetworks} from "../../constants";
 import {useKeplrContext, usePhantomContext} from "../../../contexts";
 import {AccountData, Coin, StdFee} from "@keplr-wallet/types";
 import {Dec, DecUtils} from "@keplr-wallet/unit";
@@ -28,7 +20,7 @@ import pollSignatureStatus from "../../utils/pollSignatureStatus";
 import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstruction} from "@solana/web3.js";
 import {LoadingItem} from "../../items";
 import Link from "next/link";
-import {CommonButtonCustom} from "../../buttons/common-button-custom";
+import {CommonButtonCustom} from "../../buttons";
 
 const SwapPage: NextPage = () => {
     const {keplr} = useKeplrContext();
@@ -148,12 +140,14 @@ const SwapPage: NextPage = () => {
 
         const transactionType = pathFinderResponse?.transactionType;
 
+        const chainInfo = supportedNetworks.get(chainId);
+
         if (!phantomProvider) {
             alert("Phantom is not setup");
             return;
         }
 
-        const rpcUrl = rpcAddresses.get(chainId) || "";
+        const rpcUrl = chainInfo?.rpc || "";
 
         if (transactionType === "TRANSFER") {
             const senderAddress = phantomProvider.publicKey;
@@ -187,7 +181,7 @@ const SwapPage: NextPage = () => {
                 transaction,
                 {skipPreflight: false}
             ).then(({signature}) => {
-                setExplorerLink(solanaExplorerUrl);
+                setExplorerLink(chainInfo?.explorerUrl.replace("{TRX_HASH}", signature) || "");
                 setTransactionNumber(signature);
                 return pollSignatureStatus(signature, connection);
             }).then(() => {
@@ -208,8 +202,16 @@ const SwapPage: NextPage = () => {
         const chainId = token1?.locatedZone?.networkId || "";
         const txMemo = pathFinderResponse?.txMemo || '';
 
+        const chainInfo = supportedNetworks.get(chainId);
+
         if (!keplr) {
             alert("Keplr is not setup");
+            return;
+        }
+
+        const offlineSigner = keplr.getOfflineSigner(chainId);
+        if (!offlineSigner) {
+            alert(`Network ${token1?.locatedZone?.name}(${chainId}) is not setup.`);
             return;
         }
 
@@ -218,9 +220,8 @@ const SwapPage: NextPage = () => {
             gas: "200000",
         };
 
-        const offlineSigner = keplr.getOfflineSigner(chainId);
         const account: AccountData = (await offlineSigner.getAccounts())[0];
-        const rpcUrl = rpcAddresses.get(chainId) || "";
+        const rpcUrl = chainInfo?.rpc || "";
 
         const signingClient = await SigningStargateClient.connectWithSigner(
             rpcUrl,
@@ -238,7 +239,7 @@ const SwapPage: NextPage = () => {
             txMemo
         ).then((deliverTxResponse) => {
             if (deliverTxResponse.code === 0) {
-                setExplorerLink(cosmosExplorerUrl);
+                setExplorerLink(chainInfo?.explorerUrl.replace("{TRX_HASH}", deliverTxResponse.transactionHash) || "");
                 setTransactionNumber(deliverTxResponse.transactionHash);
                 setOpenPendingPaymentModal(false);
                 setOpenSuccessPaymentModal(true);
@@ -256,10 +257,14 @@ const SwapPage: NextPage = () => {
     const makeSwap = async () => {
         const chainId = token1?.locatedZone?.networkId || "";
 
-        if (keplrNetworks.includes(chainId)) {
-            await makeKeplrTransaction();
-        } else if (phantomNetworks.includes(chainId)) {
-            await makePhantomTransaction();
+        if (supportedNetworks.has(chainId)) {
+            const chainInfo = supportedNetworks.get(chainId);
+
+            if (chainInfo?.supportedWallets.includes(KEPLR_WALLET)) {
+                await makeKeplrTransaction();
+            } else if (chainInfo?.supportedWallets.includes(PHANTOM_WALLET)) {
+                await makePhantomTransaction();
+            }
         } else {
             alert(`Network ${token1?.locatedZone?.name} is not supported yet.`);
         }
@@ -317,9 +322,9 @@ const SwapPage: NextPage = () => {
                     <Typography className='bold14'>
                         Transaction:
                         <br/>
-                        <Link href={`${explorerLink}/${transactionNumber}?cluster=testnet`}>
+                        <a target="_blank" rel="noopener noreferrer" href={explorerLink}>
                             {transactionNumber}
-                        </Link>
+                        </a>
                     </Typography>
                 </Box>
             </PaymentStatusModal>
