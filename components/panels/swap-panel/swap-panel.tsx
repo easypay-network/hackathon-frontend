@@ -21,14 +21,15 @@ import {Connection, PublicKey, SystemProgram, Transaction, TransactionInstructio
 import {LoadingItem} from "../../items";
 import Link from "next/link";
 import {CommonButtonCustom} from "../../buttons";
+import TokenSelect from "../../token-select/TokenSelect";
 
 const SwapPage: NextPage = () => {
     const {keplr} = useKeplrContext();
     const {phantomProvider} = usePhantomContext();
 
     const [assets, setAssets] = useState<Asset[]>([])
-    const [token1, setToken1] = useState<Asset>({} as Asset);
-    const [token2, setToken2] = useState<Asset>({} as Asset);
+    const [token1, setToken1] = useState<Asset | undefined>({} as Asset);
+    const [token2, setToken2] = useState<Asset | undefined>({} as Asset);
     const [amount1, setAmount1] = useState<string>('');
     const [amount2, setAmount2] = useState<string>('');
     const [address, setAddress] = useState<string>('');
@@ -50,12 +51,12 @@ const SwapPage: NextPage = () => {
             .catch((error) => console.error(error));
     }, []);
 
-    const handleDataFromSelect1 = (childToken: Asset, childAmount: string) => {
+    const handleDataFromSelect1 = (childToken: Asset | undefined, childAmount: string) => {
         setToken1(childToken);
         setAmount1(childAmount);
     };
 
-    const handleDataFromSelect2 = (childToken: Asset, childAmount: string) => {
+    const handleDataFromSelect2 = (childToken: Asset | undefined, childAmount: string) => {
         setToken2(childToken);
         setAmount2(childAmount);
     };
@@ -63,7 +64,7 @@ const SwapPage: NextPage = () => {
     const [routingTableIsLoading, setRoutingTableIsLoading] = useState(false)
 
     const calculatePaymentPath = () => {
-        if (token1 && token2 && amount1 && address) {
+        if (token1?.denom && token2?.denom && amount1 && address) {
             setRoutingTableIsLoading(true);
             axios.get(`${apiUrl}/pathfinder/try`,
                 {
@@ -285,13 +286,17 @@ const SwapPage: NextPage = () => {
                 <Box className={styles.container}>
                     {!assets.length ? <LoadingItem/> :
                         <>
-                            <SelectToken label={'From:'} token={token1} amount={amount1}
-                                         onDataUpdate={handleDataFromSelect1} assets={assets} disabledSelect={false}
-                                         disabledInput={false}/>
-                            <SelectToken label={'to:'} token={token2} amount={amount2}
-                                         onDataUpdate={handleDataFromSelect2} assets={assets} disabledSelect={false}
-                                         disabledInput={true}/>
                             <div className={styles.tokenContainer}>
+                                <TokenSelect label={'From:'}
+                                             amount={amount1}
+                                             onDataUpdate={handleDataFromSelect1}
+                                             assets={assets}
+                                             disabledInput={false}/>
+                                <TokenSelect label={'To:'}
+                                             amount={amount2}
+                                             onDataUpdate={handleDataFromSelect2}
+                                             assets={assets}
+                                             disabledInput={true}/>
                                 <div className={styles.addressContainer}>
                                     <label className={styles.addressLabel}>Address</label>
                                     <input className={styles.addressInput}

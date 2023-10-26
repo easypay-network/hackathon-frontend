@@ -1,0 +1,140 @@
+.mainContainer {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    left: -28px;
+    justify-content: center;
+}
+
+.selectorContainer {
+    width: 280px;
+    color: #0C0000;
+    font-family: Gilroy,sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    position: relative;
+}
+
+.selectorContainer:hover {
+    cursor: pointer;
+}
+
+.select {
+    height: 32px;
+    border-radius: 6px;
+    background: #fff;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    /*justify-content: space-between;*/
+    /*gap: 5px;*/
+    overflow: hidden;
+}
+
+.select span {
+    margin: 0 10px;
+}
+
+.startInput {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.selectorContainer img {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.tokensList {
+    z-index: 10;
+    position: absolute;
+    width: 100%;
+    margin-top: 1px;
+    max-height: 40vh;
+    overflow-y: auto;
+    border-radius: 6px;
+}
+
+.tokensList::-webkit-scrollbar {
+    width: 3px;
+}
+
+.tokensList::-webkit-scrollbar-track {
+    background: #666;
+    border-radius: 3px;
+}
+
+.tokensList::-webkit-scrollbar-thumb {
+    background-color: #BABABA;
+    border-radius: 3px;
+    height: 40%;
+}
+
+.tokenListItem {
+    min-height: 32px;
+    display: flex;
+    background: #d1d1d1;
+    padding-left: 10px;
+    align-items: center;
+    /*gap: 5px;*/
+    overflow: hidden;
+    border-bottom: 1px solid #505050;
+    border-left: 1px solid #505050;
+    border-right: 1px solid #505050;
+}
+
+.tokenListItem span {
+    margin: 0 10px;
+}
+
+.tokenListItem:hover {
+    background: #B5B5B5;
+}
+
+.tokenListItem:first-child {
+    border-top: 1px #505050;
+}
+
+.amountContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.amount {
+    width: 94px;
+    height: 32px;
+    background: #fff;
+    border-radius: 6px;
+    border: none;
+    text-align: center!important;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+}
+
+.inputLabel {
+    padding-left: 5px;
+    color: #FFF;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+}
+
+.tokenSelectTittle {
+    min-width: 34px;
+    color: #FFF;
+    text-align: right;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    margin-top: 24px;
+}
