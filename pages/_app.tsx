@@ -27,6 +27,7 @@ export default function MyApp(props: MyAppProps) {
 
     const [keplr, setKeplr] = useState<Keplr>();
     const [keplrWalletConnected, setKeplrWalletConnected] = useState(false);
+    const [userAddresses, setUserAddresses] = useState<string[]>([]);
     const [phantomProvider, setPhantomProvider] = useState<PhantomProvider>();
     const [phantomWalletConnected, setPhantomWalletConnected] = useState(false);
     const [email, setEmail] = useState<string>();
@@ -40,7 +41,7 @@ export default function MyApp(props: MyAppProps) {
             </Head>
             <ThemeProvider theme={theme}>
                 <GoogleOAuthProvider clientId={googleOAuthClientId}>
-                    <KeplrContext.Provider value={{keplr, setKeplr, keplrWalletConnected, setKeplrWalletConnected}}>
+                    <KeplrContext.Provider value={{keplr, setKeplr, keplrWalletConnected, setKeplrWalletConnected, userAddresses, setUserAddresses}}>
                         <PhantomContext.Provider value={{phantomProvider, setPhantomProvider, phantomWalletConnected, setPhantomWalletConnected}}>
                             <UserInfoContext.Provider value={{email, setEmail, emailVerified, setEmailVerified}}>
                                 <CssBaseline/>

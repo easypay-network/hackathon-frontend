@@ -6,13 +6,17 @@ export type KeplrContextSetting = {
     setKeplr: (k: Keplr) => void;
     keplrWalletConnected: boolean;
     setKeplrWalletConnected: (b: boolean) => void;
+    userAddresses: string[];
+    setUserAddresses: (s: string[]) => void;
 }
 
 export const KeplrContext = createContext<KeplrContextSetting>({
     keplr: undefined,
     setKeplr: () => {},
     keplrWalletConnected: false,
-    setKeplrWalletConnected: () => {}
+    setKeplrWalletConnected: () => {},
+    userAddresses: [],
+    setUserAddresses: () => {}
 });
 
 export const useKeplrContext = () => useContext(KeplrContext);

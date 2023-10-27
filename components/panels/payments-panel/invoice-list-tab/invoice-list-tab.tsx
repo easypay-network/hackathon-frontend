@@ -15,9 +15,8 @@ import {
 import styles from "./invoice-list-tab.module.css";
 import RemoveIcon from '@mui/icons-material/Remove';
 import {Invoice} from "../../../types";
-import {CommonButton} from "../../../buttons";
 import AddIcon from '@mui/icons-material/Add';
-import {useUserInfoContext} from "../../../../contexts";
+import {useKeplrContext, useUserInfoContext} from "../../../../contexts";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -26,7 +25,8 @@ import {InvoiceStatusItem} from "./invoice-status-item";
 import axios from "axios";
 import {apiUrl} from "../../../constants";
 import {LoadingItem} from "../../../items";
-import {CommonButtonCustom} from "../../../buttons/common-button-custom";
+import {CommonButtonCustom} from "../../../buttons";
+import qs from 'qs';
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -56,6 +56,7 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
 export const InvoiceListTab: FunctionComponent = () => {
     const router = useRouter();
 
+    const {keplrWalletConnected, userAddresses} = useKeplrContext();
     const {email, emailVerified} = useUserInfoContext();
 
     const [invoices, setInvoices] = useState<Invoice[]>();
@@ -66,7 +67,11 @@ export const InvoiceListTab: FunctionComponent = () => {
         setIsLoading(true)
         axios.get(`${apiUrl}/invoices`, {
             params: {
-                requesterEmail: emailVerified && email || ''
+                requesterEmail: emailVerified && email || '',
+                requesterWalletAddress: keplrWalletConnected && userAddresses || ''
+            },
+            paramsSerializer: params => {
+                return qs.stringify(params, { arrayFormat: "repeat" });
             }
         })
             .then((response) => {

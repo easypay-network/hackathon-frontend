@@ -15,6 +15,7 @@ import keplrIcon from "../../../public/keplrIcon.svg"
 import googleIcon from "../../../public/googleIcon.svg"
 import {ChainInfoWithoutEndpoints} from "@keplr-wallet/types/src/chain-info";
 import {supportedNetworks} from "../../constants";
+import {AccountData, Keplr} from "@keplr-wallet/types";
 
 interface Props {
     open: boolean;
@@ -22,9 +23,15 @@ interface Props {
 }
 
 export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
-    const {setKeplr, keplrWalletConnected, setKeplrWalletConnected} = useKeplrContext();
+    const {setKeplr, keplrWalletConnected, setKeplrWalletConnected, setUserAddresses} = useKeplrContext();
     const {setPhantomProvider, phantomWalletConnected, setPhantomWalletConnected} = usePhantomContext();
     const {setEmail, emailVerified, setEmailVerified} = useUserInfoContext();
+
+    const getAddressFromWallet = async (keplr: Keplr, chainId : string) => {
+        const offlineSigner = keplr.getOfflineSigner(chainId);
+        const account: AccountData = (await offlineSigner.getAccounts())[0];
+        return account.address;
+    }
 
     const onKeplrConnect = () => {
         getKeplrFromWindow().then((keplr) => {
@@ -38,11 +45,19 @@ export const LoginModal: FunctionComponent<Props> = ({open, setOpen}) => {
 
                         const chainsToEnable = new Set([...installedChains].filter(chainId => supportedChains.has(chainId)));
 
-                        return keplr.enable([...chainsToEnable]);
-                    })
-                    .then(() => {
-                        setKeplr(keplr);
-                        setKeplrWalletConnected(true);
+                        keplr.enable([...chainsToEnable])
+                            .then(() => {
+                                return Promise
+                                    .all([...chainsToEnable].map(chainId => getAddressFromWallet(keplr, chainId)))
+                                    .then((userAddresses: string[]) => {
+                                        setUserAddresses(userAddresses);
+                                    });
+                            })
+                            .then(() => {
+                                setKeplr(keplr);
+                                setKeplrWalletConnected(true);
+                            })
+                            .catch((error) => console.error(error));
                     })
                     .catch((error) => console.error(error));
             }

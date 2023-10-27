@@ -41,6 +41,11 @@ export const supportedNetworks: Map<string, ChainInfo> =  new Map([
         supportedWallets: [KEPLR_WALLET],
         explorerUrl: "https://www.mintscan.io/cosmoshub-testnet/tx/{TRX_HASH}"
     }],
+    ["agoricdev-23", {
+        rpc: "https://devnet.rpc.agoric.net",
+        supportedWallets: [KEPLR_WALLET],
+        explorerUrl: "https://devnet.agoric.explorers.guru/transaction/{TRX_HASH}"
+    }],
     ["solana_testnet", {
         rpc: "https://api.testnet.solana.com",
         supportedWallets: [PHANTOM_WALLET],
