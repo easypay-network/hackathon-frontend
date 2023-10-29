@@ -194,7 +194,13 @@ export const InvoiceItemTab: FunctionComponent = () => {
                                     </CommonButtonCustom>
                                 </Box>
                                 <CustomDivider/>
-                                {routingTableIsLoading ? <div style={{position: 'relative', height: '200px'}}><LoadingItem/></div> : <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>}
+                                {routingTableIsLoading
+                                    ?
+                                    <div style={{position: 'relative', height: '200px'}}>
+                                        <LoadingItem/></div>
+                                    :
+                                    <RoutingTable pathResults={pathFinderResponse?.pathResults || []} invoice={invoiceItem}/>
+                                }
                                 <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
                                     <CommonButtonCustom className={styles.btn} onClick={()=>setOpen(true)} disabled={!invoiceItem?.payedAmount}>
                                         <Typography className="bold16">Initiate payment</Typography>

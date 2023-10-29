@@ -64,7 +64,9 @@ const SwapPage: NextPage = () => {
     const [routingTableIsLoading, setRoutingTableIsLoading] = useState(false)
 
     const calculatePaymentPath = () => {
-        if (token1?.denom && token2?.denom && amount1 && address) {
+        if (token1?.denom === token2?.denom) {
+            alert("The tokens are the same")
+        } else if (token1?.denom && token2?.denom && amount1 && address) {
             setRoutingTableIsLoading(true);
             axios.get(`${apiUrl}/pathfinder/try`,
                 {
@@ -306,7 +308,12 @@ const SwapPage: NextPage = () => {
                             <CommonButtonCustom onClick={calculatePaymentPath} className={styles.btn}>Get routes</CommonButtonCustom>
                             <hr color={"#888"}/>
                             <h3>Routing</h3>
-                            {routingTableIsLoading ? <div style={{position: 'relative', height: '200px'}}><LoadingItem/></div> : <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>}
+                            {routingTableIsLoading ?
+                                <div style={{position: 'relative', height: '200px'}}>
+                                    <LoadingItem/>
+                                </div>
+                                :
+                                <RoutingTable pathResults={pathFinderResponse?.pathResults || []}/>}
                             <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30px'}}>
                                 <CommonButtonCustom className={styles.btn2} onClick={makeSwap} disabled={!pathFinderResponse?.pathResults}>
                                     <Typography className="bold16">Swap</Typography>
