@@ -46,7 +46,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
             amount: DecUtils.getTenExponentN(6).mul(new Dec(requestedAmount)).truncate().toString(),
         };
 
-        if (transactionType === "TRANSFER") {
+        if (transactionType === "TRANSFER" || transactionType === "DIRECT_PAYMENT") {
             return {
                 typeUrl: '/cosmos.bank.v1beta1.MsgSend',
                 value: {
@@ -96,7 +96,7 @@ export const PaymentConfirmModal: FunctionComponent<Props> = ({open, setOpen, in
 
         const rpcUrl = chainInfo?.rpc || "";
 
-        if (transactionType === "TRANSFER") {
+        if (transactionType === "TRANSFER" || transactionType === "DIRECT_PAYMENT") {
             const senderAddress = phantomProvider.publicKey;
 
             const connection = new Connection(rpcUrl);

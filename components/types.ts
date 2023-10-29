@@ -132,7 +132,7 @@ export interface PathResult {
     edgeCost: number,
 }
 
-export type TransactionType = 'TRANSFER' | 'IBC_TRANSFER' | 'CONTRACT_CALL';
+export type TransactionType = 'TRANSFER' | 'IBC_TRANSFER' | 'CONTRACT_CALL' | 'DIRECT_PAYMENT';
 export type InvoiceType = 'invoice' | 'listing';
 export type InvoiceDirection = 'INCOMING' | 'OUTGOING' | 'NEUTRAL';
 export type InvoiceStatus = 'pending' | 'resolved' | 'rejected';
